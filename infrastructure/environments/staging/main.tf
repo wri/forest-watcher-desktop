@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "forest-watcher-web-test.terraform"
+    bucket = "forest-watcher-web.terraform"
     key    = "staging/terraform.tfstate"
     region = "us-east-1"
   }
@@ -44,9 +44,9 @@ module "domain" {
 module "web" {
   source = "../../modules/web"
 
-  project_name            = local.name
+  project_name            = local.project_name
+  environment             = local.environment
   app_urls                = [local.domain]
-  zone_id                 = module.domain.hosted_zone_id
   repo_name               = "forest-watcher/forest-watcher-desktop"
   aws_acm_certificate_arn = module.domain.acm_certificate_arn
 }

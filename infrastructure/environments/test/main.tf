@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "forest-watcher-web-test.terraform"
+    bucket = "forest-watcher-web.terraform"
     key    = "test/terraform.tfstate"
     region = "us-east-1"
   }
@@ -15,7 +15,7 @@ terraform {
 
 locals {
   client       = "wri"
-  project_name = "${local.client}-forest-watcher-web"
+  project_name = "${local.client}-forest-watcher"
   environment  = "test"
   name         = "${local.project_name}-${local.environment}"
   domain       = "${local.environment}.gfw-web.3sidedcube.com"
@@ -44,7 +44,8 @@ module "domain" {
 module "web" {
   source = "../../modules/web"
 
-  project_name            = local.name
+  project_name            = local.project_name
+  environment             = local.environment
   app_urls                = [local.domain]
   zone_id                 = module.domain.hosted_zone_id
   repo_name               = "forest-watcher/forest-watcher-desktop"

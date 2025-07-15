@@ -1,17 +1,17 @@
 variable "project_name" {
-  type        = string
+  type = string
 }
 
-variable "zone_id" {
-  type        = string
+variable "environment" {
+  type = string
 }
 
 variable "app_urls" {
-  type        = list(string)
+  type = list(string)
 }
 
 variable "repo_name" {
-  type        = string
+  type = string
 }
 
 

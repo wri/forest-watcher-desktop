@@ -8,7 +8,7 @@ provider "aws" {
 }
 
 locals {
-  name = "${var.project_name}-web"
+  name = "${var.project_name}-${var.environment}-web"
 }
 
 resource "aws_s3_bucket" "main" {
@@ -100,8 +100,8 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = var.aws_acm_certificate_arn
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn      = var.aws_acm_certificate_arn
+    ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
@@ -163,12 +163,12 @@ data "aws_iam_policy_document" "web_deploy" {
 
 
 resource "aws_iam_role" "ci" {
-  name               = "${var.project_name}-web-ci-role"
+  name               = "${local.name}-ci-role"
   assume_role_policy = data.aws_iam_policy_document.ci_assume.json
 }
 
 resource "aws_iam_role_policy" "ci" {
   role   = aws_iam_role.ci.name
-  name   = "${var.project_name}-web-ci-policy"
+  name   = "${local.name}-ci-policy"
   policy = data.aws_iam_policy_document.web_deploy.json
 }
