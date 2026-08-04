@@ -124,4 +124,4 @@ export type GAEvents =
       "create_template" | "detail_view",
       "started_template" | "completed_template" | "deleted_template"
     >
-  | GenerateEvent<"Help", "contact_form" | "help_centre", "submitted_form" | "visited_GFW_Help">;
+  | GenerateEvent<"Help", "contact_form" | "help_centre", "submitted_form" | "visited_GNW_Help">;

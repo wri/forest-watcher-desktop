@@ -27,3 +27,5 @@ index.css
 .terraform
 .terraform*
 .terraform.lock.hcl
+
+.vscode

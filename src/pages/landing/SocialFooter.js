@@ -32,7 +32,7 @@ class SocialFooter extends Component {
                 target="_blank"
                 className="twitter-share-button"
                 data-url={SOCIAL_SHARE_URL}
-                data-text="Global Forest Watch"
+                data-text="Global Nature Watch"
               >
                 Tweet
               </a>
@@ -41,7 +41,7 @@ class SocialFooter extends Component {
                 rel="noreferrer noopener"
                 target="_blank"
                 className="c-social__button-link"
-                aria-label="Share Global Forest Watch on Facebook"
+                aria-label="Share Global Nature Watch on Facebook"
               >
                 <span className="c-social__button-icon" aria-hidden="true">
                   <img alt="" src={FacebookLogo} />
@@ -53,7 +53,7 @@ class SocialFooter extends Component {
           <div className="small-6 columns">
             <div className="text -title-xxs -color-5">Sign up to receive updates</div>
             <div className="c-social__icons">
-              <a href="?show_newsletter=true" title="Receive Global Forest Watch updates">
+              <a href="?show_newsletter=true" title="Receive Global Nature Watch updates">
                 <svg className="icon">
                   <use xlinkHref="#icon-mail" />
                 </svg>

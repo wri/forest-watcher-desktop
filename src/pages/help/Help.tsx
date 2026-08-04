@@ -94,7 +94,7 @@ const Help = () => {
             fireGAEvent({
               category: "Help",
               action: "help_centre",
-              label: "visited_GFW_Help"
+              label: "visited_GNW_Help"
             })
           }
           textClassName="max-w-[600px]"
