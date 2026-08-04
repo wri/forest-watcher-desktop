@@ -1,7 +1,10 @@
 import { TWITTER_WIDGET_API } from "./global";
 
 export const GFW_ASSETS_PATH = process.env.REACT_APP_GFW_ASSETS_PATH;
-export const SOCIAL_SHARE_URL = "https://globalnaturewatch.org/";
+const DEFAULT_SOCIAL_SHARE_URL = "https://globalnaturewatch.org/";
+
+export const SOCIAL_SHARE_URL =
+  typeof window !== "undefined" && window.location?.origin ? `${window.location.origin}/` : DEFAULT_SOCIAL_SHARE_URL;
 export const FACEBOOK_SHARE_URL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
   SOCIAL_SHARE_URL
 )}`;
