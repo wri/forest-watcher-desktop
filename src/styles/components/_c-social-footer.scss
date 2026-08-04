@@ -13,13 +13,47 @@
 
   .c-social__buttons {
     margin-top: rem(17px);
-    div, iframe {
-      margin-left: 5px;
-      margin-right: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: rem(10px);
+
+    .c-social__button-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: rem(20px);
+      padding: 0 rem(8px);
+      gap: rem(6px);
+      border: solid 1px #d6d6d9;
+      border-radius: rem(10px);
+      color: $disabled-font-color;
+      font-size: rem(12px);
+      line-height: 1;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        border-color: $theme-secondary;
+        color: $theme-secondary;
+      }
     }
 
-    .fb_iframe_widget {
-      top: -2px;
+    .c-social__button-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: rem(14px);
+      height: rem(14px);
+      border-radius: 50%;
+      background-color: #1877f2;
+      overflow: hidden;
+
+      img {
+        width: rem(10px);
+        height: rem(10px);
+        object-fit: contain;
+      }
     }
   }
 

@@ -1,8 +1,11 @@
 import { Component } from "react";
-import { SOCIAL_FOOTER_SCRIPT } from "../../constants/landing";
+import FacebookLogo from "assets/images/icons/facebook-logo.svg";
+import { FACEBOOK_SHARE_URL, SOCIAL_FOOTER_SCRIPT, SOCIAL_SHARE_URL } from "../../constants/landing";
 
 class SocialFooter extends Component {
   componentDidMount() {
+    if (!SOCIAL_FOOTER_SCRIPT) return;
+
     this.script = document.createElement("script");
     this.script.type = "text/javascript";
     this.script.async = true;
@@ -11,7 +14,9 @@ class SocialFooter extends Component {
   }
 
   componentWillUnmount() {
-    document.body.removeChild(this.script);
+    if (this.script?.parentNode) {
+      this.script.parentNode.removeChild(this.script);
+    }
   }
 
   render() {
@@ -21,25 +26,28 @@ class SocialFooter extends Component {
           <div className="small-6 columns">
             <div className="text -title-xxs -color-5">Spread the word</div>
             <div className="c-social__buttons">
-              <div id="fb-root" />
               <a
-                href="http://twitter.com/share"
+                href="https://twitter.com/share"
                 rel="noreferrer noopener"
                 target="_blank"
                 className="twitter-share-button"
-                data-url="http://www.globalforestwatch.org/"
+                data-url={SOCIAL_SHARE_URL}
                 data-text="Global Forest Watch"
               >
                 Tweet
               </a>
-              <div
-                className="fb-like"
-                data-href="http://www.globalforestwatch.org/"
-                data-layout="button_count"
-                data-action="like"
-                data-show-faces="false"
-                data-share="false"
-              />
+              <a
+                href={FACEBOOK_SHARE_URL}
+                rel="noreferrer noopener"
+                target="_blank"
+                className="c-social__button-link"
+                aria-label="Share Global Forest Watch on Facebook"
+              >
+                <span className="c-social__button-icon" aria-hidden="true">
+                  <img alt="" src={FacebookLogo} />
+                </span>
+                Share
+              </a>
             </div>
           </div>
           <div className="small-6 columns">
