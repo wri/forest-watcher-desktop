@@ -2,9 +2,7 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
-import { DOWNLOAD_APK_LINK, DOWNLOAD_APK_VERSION } from "constants/landing";
 import SocialFooter from "./SocialFooter";
-import ReactGA from "react-ga";
 
 class Landing extends Component {
   static propTypes = {
@@ -58,19 +56,6 @@ class Landing extends Component {
                   </span>
                 </a>
               </div>
-              <span className="text">
-                <FormattedMessage id="app.or" />
-                &nbsp;
-                <ReactGA.OutboundLink
-                  eventLabel="Homepage - apk link"
-                  to={DOWNLOAD_APK_LINK}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="text -green"
-                >
-                  <FormattedMessage id="app.download" /> .apk (v{DOWNLOAD_APK_VERSION})
-                </ReactGA.OutboundLink>
-              </span>
               <div className="description">
                 <FormattedMessage id="app.webDescription" />
               </div>
@@ -91,7 +76,7 @@ class Landing extends Component {
                   className="text -green"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="http://www.globalforestwatch.org/howto/tags/forest-watcher/"
+                  href="https://globalnaturewatch.org/help/forest-watcher/"
                 >
                   <FormattedMessage id="app.learnHowToLink" />
                 </a>

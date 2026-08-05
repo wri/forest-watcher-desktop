@@ -88,13 +88,13 @@ const Help = () => {
           title={intl.formatMessage({ id: "help.helpCenter.cta.title" })}
           text={intl.formatMessage({ id: "help.helpCenter.cta.subtitle" })}
           ctaText={intl.formatMessage({ id: "help.helpCenter.cta.link" })}
-          ctaTo="https://www.globalforestwatch.org/help/"
+          ctaTo="https://globalnaturewatch.org/help/"
           ctaIsExternal
           ctaOnClick={() =>
             fireGAEvent({
               category: "Help",
               action: "help_centre",
-              label: "visited_GFW_Help"
+              label: "visited_GNW_Help"
             })
           }
           textClassName="max-w-[600px]"

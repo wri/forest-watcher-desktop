@@ -11,7 +11,6 @@ export const API_CALLBACK_URL = process.env.REACT_APP_API_AUTH_CALLBACK_URL;
 export const CARTO_COUNTRIES = process.env.REACT_APP_CARTO_COUNTRIES;
 export const GFW_API_KEY = process.env.REACT_APP_GFW_API_KEY;
 export const TWITTER_WIDGET_API = process.env.REACT_APP_TWITTER_WIDGET_API;
-export const FACEBOOK_WIDGET_API = process.env.REACT_APP_FACEBOOK_WIDGET_API;
 export const GA_UA = process.env.REACT_APP_GA_UA;
 export const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN;
 export const ENVIRONMENT = process.env.NODE_ENV;
@@ -45,7 +44,6 @@ const Globals = {
   TABLE_PAGE_SIZE,
   GFW_API_KEY,
   TWITTER_WIDGET_API,
-  FACEBOOK_WIDGET_API,
   GA_UA,
   GOOGLE_PLACES_API_KEY,
   MY_GFW_LINK
