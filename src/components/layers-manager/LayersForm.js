@@ -110,7 +110,7 @@ class LayersForm extends Component {
           ReactGA.event({
             category: CATEGORY.CONTEXTUAL_LAYERS,
             action: ACTION.ADD_GFW_LAYER,
-            label: "Add GFW Layer Success"
+            label: "Add GNW Layer Success"
           });
         }
         return GFWLayer;

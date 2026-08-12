@@ -18,7 +18,7 @@ export const ACTION = {
   EDIT_SETTINGS: "Edit settings",
   ADD_TEAM: "Add team member",
   REMOVE_TEAM: "Delete team member",
-  ADD_GFW_LAYER: "Add GFW layers",
+  ADD_GFW_LAYER: "Add GNW layers",
   ADD_CUSTOM_LAYER: "Add custom layers"
 };
 
