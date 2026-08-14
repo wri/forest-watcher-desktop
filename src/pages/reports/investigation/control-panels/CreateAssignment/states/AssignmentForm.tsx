@@ -105,7 +105,7 @@ const AssignmentForm: FC<IProps> = props => {
 
   // Scroll Position Values
   const controlPanelPreviousScrollTopRef = useRef<number>(0);
-  const controlPanelContentRef = useRef<HTMLDivElement>(undefined);
+  const controlPanelContentRef = useRef<HTMLDivElement | undefined>(undefined);
 
   // FormData
   const parentFormContext = useFormContext();

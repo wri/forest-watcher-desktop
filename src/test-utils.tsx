@@ -7,14 +7,17 @@ import { DEFAULT_LANGUAGE } from "constants/global";
 import { IntlProvider } from "react-intl";
 import translations from "locales/index.js";
 
+const observableSymbol =
+  typeof Symbol === "function" && (Symbol as any).observable ? (Symbol as any).observable : "@@observable";
+
 const defaultStore = {
   getState: () => ({}),
   dispatch: (action: any) => action,
   subscribe: () => () => undefined,
   replaceReducer: () => undefined,
-  [Symbol.observable]: () => ({
-    subscribe: () => ({ unsubscribe: () => undefined })
-  })
+  [observableSymbol]: function () {
+    return this;
+  }
 };
 
 interface WrapperProps {
