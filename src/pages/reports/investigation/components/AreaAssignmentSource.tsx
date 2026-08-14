@@ -6,7 +6,7 @@ import { fireGAEvent } from "helpers/analytics";
 import { useAccessToken } from "hooks/useAccessToken";
 import useGetUserId from "hooks/useGetUserId";
 import { FC, useCallback, useContext, useMemo } from "react";
-import { useMap } from "react-map-gl";
+import { useMap } from "react-map-gl/mapbox";
 import { MonitoringActions, MonitoringLabel } from "types/analytics";
 import { AssignmentLayerType, IPoint } from "types/map";
 import MapContext from "../MapContext";

@@ -7,6 +7,7 @@ import Loader from "components/ui/Loader";
 import useUrlQuery from "hooks/useUrlQuery";
 import useGetAreas from "hooks/querys/areas/useGetAreas";
 import DefaultAreaThumbnail from "assets/images/DefaultAreaThumbnail.svg";
+import { getAreaPreviewSrc } from "helpers/areaPreview";
 
 interface IProps extends RouteComponentProps {}
 
@@ -37,13 +38,14 @@ const AreaListAreaCard: FC<{ area: any; teamId?: string }> = ({ area, teamId }) 
   const handleThumbnailLoadError: ReactEventHandler<HTMLImageElement> = e => {
     e.currentTarget.src = DefaultAreaThumbnail;
   };
+  const imageSrc = getAreaPreviewSrc(area, DefaultAreaThumbnail);
 
   return (
     <div className="c-map-control-panel__grid-item" ref={el => handleCardRef(area.id, el)}>
       <Card className="c-map-control-panel__area-card" size="small">
         <Card.Image
           alt=""
-          src={area.attributes.image}
+          src={imageSrc}
           loading="lazy"
           className="c-area-card__image c-map-control-panel__area-card-image"
           onError={handleThumbnailLoadError}

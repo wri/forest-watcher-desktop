@@ -32,7 +32,7 @@ REACT_APP_API_CUBE_URL=https://dev-fw-api.globalforestwatch.org
 In order to create support for a newly implemented api microservice we can run the command
 
 ```
-yarn generate:new
+npm run generate:new
 ```
 
 This will open a wizard setup in the terminal window that will prompt you to fill in values for:
@@ -68,10 +68,10 @@ example:
 
 ```
 // Re-generate for api microservice
-yarn generate:api
+npm run generate:api
 
 // Re-generate for teams microservice
-yarn generate:teams
+npm run generate:teams
 
 ...etc
 
@@ -138,10 +138,10 @@ import Icon from "components/extensive/Icon";
 Locales are managed with transifex.
 Please setup the [cli tool](https://github.com/transifex/cli) and ensure you have authenticated with the GFW transifex account
 
-Run `yarn transifex:pull` to fetch current translations
+Run `npm run transifex:pull` to fetch current translations
 This command will also format the fetched translations so we can see changes
 
-Run `yarn transifex:push` to push en.json to Transifex (ensure you have pulled all changes first!)
+Run `npm run transifex:push` to push en.json to Transifex (ensure you have pulled all changes first!)
 
 ## License
 

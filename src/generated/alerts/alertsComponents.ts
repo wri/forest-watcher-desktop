@@ -58,7 +58,7 @@ export const useGetAlertsByGeostore = <TData = undefined>(
   const { fetcherOptions, queryOptions, queryKeyFn } = useAlertsContext(options);
   return reactQuery.useQuery<undefined, GetAlertsByGeostoreError, TData>(
     queryKeyFn({ path: "/fw-alerts/{dataset}/{geostore}", operationId: "getAlertsByGeostore", variables }),
-    ({ signal }) => fetchGetAlertsByGeostore({ ...fetcherOptions, ...variables }, signal),
+    ({ signal }: { signal?: AbortSignal }) => fetchGetAlertsByGeostore({ ...fetcherOptions, ...variables }, signal),
     {
       ...options,
       ...queryOptions

@@ -3,14 +3,14 @@ import { Fragment } from "react";
 import { RadioGroup as HeadlessRadioGroup } from "@headlessui/react";
 import classnames from "classnames";
 import { FormattedMessage } from "react-intl";
-import { Path, PathValue, UnpackNestedValue, useController, UseControllerProps } from "react-hook-form";
+import { Path, PathValue, UnpackNestedValue, useController, UseControllerProps, FieldValues } from "react-hook-form";
 
-export interface IProps<T> {
+export interface IProps<T extends FieldValues> {
   label?: string;
   options: { label: string; key: string; value: UnpackNestedValue<PathValue<T, Path<T>>> }[];
 }
 
-const RadioGroup = <T,>(props: IProps<T> & UseControllerProps<T>) => {
+const RadioGroup = <T extends FieldValues>(props: IProps<T> & UseControllerProps<T>) => {
   const { label, options, ...controlProps } = props;
   const { field } = useController(controlProps);
 

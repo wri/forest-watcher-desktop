@@ -7,7 +7,7 @@ import CreateAssignmentForm from "pages/reports/investigation/control-panels/Cre
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import OpenAssignmentEmptyState from "pages/reports/investigation/control-panels/CreateAssignment/states/EmptyState";
-import { LngLat } from "react-map-gl";
+import { LngLat } from "react-map-gl/mapbox";
 import { useParams } from "react-router-dom";
 
 export interface IProps {

@@ -10,7 +10,7 @@ export default {
 const Template: ComponentStory<typeof TextArea> = args => {
   const { control } = useForm<{ textArea: string }>();
 
-  return <TextArea {...args} control={control} name="textArea" />;
+  return <TextArea {...args} control={control as any} name="textArea" />;
 };
 
 export const Standard = Template.bind({});

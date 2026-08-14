@@ -12,7 +12,7 @@ import StartInvestigationControlPanel, {
 import { TParams } from "./types";
 import { TPropsFromRedux } from "./InvestigationContainer";
 import { BASEMAPS, PLANET_BASEMAP } from "constants/mapbox";
-import { LngLat } from "react-map-gl";
+import { LngLat } from "react-map-gl/mapbox";
 import { setupMapImages } from "helpers/map";
 import { Map as MapInstance, MapboxEvent } from "mapbox-gl";
 import OptionalWrapper from "components/extensive/OptionalWrapper";
@@ -334,7 +334,11 @@ const InvestigationPage: FC<IProps> = props => {
               </p>
             </MapCard>
           </OptionalWrapper>
-          <div ref={e => dispatch(setPortalCard(e || undefined))}></div>
+          <div
+            ref={e => {
+              dispatch(setPortalCard(e || undefined));
+            }}
+          ></div>
         </MapComparison>
       </MapProvider>
     </>

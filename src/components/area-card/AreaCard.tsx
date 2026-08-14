@@ -5,6 +5,7 @@ import EditIcon from "assets/images/icons/Edit.svg";
 import classNames from "classnames";
 import { AreaResponse } from "generated/core/coreResponses";
 import DefaultAreaThumbnail from "assets/images/DefaultAreaThumbnail.svg";
+import { getAreaPreviewSrc } from "helpers/areaPreview";
 
 interface IProps extends HTMLAttributes<HTMLDivElement> {
   area: AreaResponse["data"];
@@ -13,6 +14,8 @@ interface IProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const AreaCard: FC<IProps> = ({ className, area, subtitleKey, subtitleValue }) => {
+  const imageSrc = getAreaPreviewSrc(area, DefaultAreaThumbnail);
+
   const handleThumbnailLoadError: ReactEventHandler<HTMLImageElement> = e => {
     e.currentTarget.src = DefaultAreaThumbnail;
   };
@@ -21,7 +24,7 @@ const AreaCard: FC<IProps> = ({ className, area, subtitleKey, subtitleValue }) =
     <Card size="large" className={classNames("c-area-card", className)}>
       <Card.Image
         alt=""
-        src={area?.attributes?.image}
+        src={imageSrc}
         loading="lazy"
         onError={handleThumbnailLoadError}
         className="c-area-card__image"

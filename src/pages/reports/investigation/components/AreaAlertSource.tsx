@@ -9,7 +9,7 @@ import useGetAlertsForArea from "hooks/querys/alerts/useGetAlertsForArea";
 import KDBush from "kdbush";
 import { FC, useCallback, useContext, useEffect, useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { useMap } from "react-map-gl";
+import { useMap } from "react-map-gl/mapbox";
 import { MonitoringActions, MonitoringLabel } from "types/analytics";
 import { IPoint, TAlertsById } from "types/map";
 import MapContext from "../MapContext";

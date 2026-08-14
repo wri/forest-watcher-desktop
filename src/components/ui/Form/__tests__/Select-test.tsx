@@ -49,7 +49,8 @@ it("Select Input should render correctly", () => {
         <label
           class="c-input__label c-input__label--select"
           data-headlessui-state=""
-          id="headlessui-listbox-label-:r0:"
+          for="headlessui-listbox-button-undefined"
+          id="headlessui-label-undefined"
         >
           Hello
         </label>
@@ -62,10 +63,10 @@ it("Select Input should render correctly", () => {
             <button
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="headlessui-listbox-label-:r0: headlessui-listbox-button-:r1:"
+              aria-labelledby="headlessui-label-undefined headlessui-listbox-button-undefined"
               class="c-input__select-button c-input__select-button--has-placeholder"
               data-headlessui-state=""
-              id="headlessui-listbox-button-:r1:"
+              id="headlessui-listbox-button-undefined"
               type="button"
             >
               <span
@@ -119,7 +120,8 @@ it("Select Input with an error should render correctly", () => {
         <label
           class="c-input__label c-input__label--select"
           data-headlessui-state=""
-          id="headlessui-listbox-label-:r3:"
+          for="headlessui-listbox-button-undefined"
+          id="headlessui-label-undefined"
         >
           Hello
         </label>
@@ -132,10 +134,10 @@ it("Select Input with an error should render correctly", () => {
             <button
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="headlessui-listbox-label-:r3: headlessui-listbox-button-:r4:"
+              aria-labelledby="headlessui-label-undefined headlessui-listbox-button-undefined"
               class="c-input__select-button c-input__select-button--has-placeholder c-input__select-button--invalid"
               data-headlessui-state=""
-              id="headlessui-listbox-button-:r4:"
+              id="headlessui-listbox-button-undefined"
               type="button"
             >
               <span

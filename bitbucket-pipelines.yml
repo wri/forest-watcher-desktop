@@ -2,32 +2,32 @@ pipelines:
   definitions:
     - step: &install_and_test
         name: Install and run tests
-        image: node:16.14.0
+        image: node:22
         caches:
           - node
         script:
-          - yarn install
-          - yarn test
+          - npm ci
+          - npm test
     - step: &build
         name: Build Project
-        image: node:16.14.0
+        image: node:22
         deployment: test
         caches:
           - node
         artifacts:
           - build/**
         script:
-          - yarn build
+          - npm run build
     - step: &build_storybook
         size: 2x
         name: Build Storybook
-        image: node:16.14.0
+        image: node:22
         caches:
           - node
         artifacts:
           - storybook-static/**
         script:
-          - yarn build-storybook
+          - npm run build-storybook
     - step: &deploy_test
         name: Deploy to develop
         trigger: manual

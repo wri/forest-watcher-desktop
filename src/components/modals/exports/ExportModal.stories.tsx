@@ -4,7 +4,6 @@ import { useState } from "react";
 import Button from "components/ui/Button/Button";
 import ExportModal, { TExportForm } from "./ExportModal";
 import { IProps as IModalProps } from "components/modals/FormModal";
-import { UnpackNestedValue } from "react-hook-form";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -15,7 +14,7 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Modal> = args => {
   const [isOpen, setIsOpen] = useState(false);
-  const [values, setValues] = useState<UnpackNestedValue<TExportForm> | null>(null);
+  const [values, setValues] = useState<TExportForm | null>(null);
 
   const onSave: IModalProps<TExportForm>["onSave"] = async data => {
     return new Promise(resolve =>

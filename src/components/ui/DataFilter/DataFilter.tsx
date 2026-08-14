@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import { DeepPartial, UnpackNestedValue, useForm, useWatch } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import FormModalInput from "components/modals/FormModalInput";
 import FormModal, { TAvailableTypes } from "components/modals/FormModal";
 import { useEffect, useMemo, useState } from "react";
@@ -12,7 +13,7 @@ export interface IFilter<T, OPTION_TYPE> {
   getShouldShow?: () => boolean;
 }
 
-export interface IProps<T, OPTION_TYPE> {
+export interface IProps<T extends FieldValues, OPTION_TYPE> {
   filters: IFilter<TAvailableTypes<T>, OPTION_TYPE>[];
   extraFilters?: IFilter<TAvailableTypes<T>, OPTION_TYPE>[];
   className?: string;
@@ -22,11 +23,11 @@ export interface IProps<T, OPTION_TYPE> {
   children?: React.ReactNode;
 }
 
-const DataFilter = <T, OPTION_TYPE>(props: IProps<T, OPTION_TYPE>) => {
+const DataFilter = <T extends FieldValues, OPTION_TYPE>(props: IProps<T, OPTION_TYPE>) => {
   const { filters, className, options, onFiltered, extraFilters, defaults, children } = props;
 
   const formhook = useForm<T>({
-    defaultValues: defaults
+    defaultValues: defaults as any
   });
   const watcher = useWatch({ control: formhook.control });
   const [isExtrasOpen, setIsExtrasOpen] = useState(false);

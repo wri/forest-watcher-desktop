@@ -6,7 +6,7 @@ import { Map as MapInstance, MapboxEvent } from "mapbox-gl";
 import * as turf from "@turf/turf";
 import { goToGeojson } from "helpers/map";
 import SquareClusterMarkers, { EPointDataTypes } from "components/ui/Map/components/layers/SquareClusterMarkers";
-import { Layer, Source } from "react-map-gl";
+import { Layer, Source } from "react-map-gl/mapbox";
 import { PLANET_BASEMAP } from "constants/mapbox";
 import { IPlanetBasemap } from "helpers/basemap";
 import ReportDetailCard from "components/ui/Map/components/cards/ReportDetailContainer";
@@ -174,7 +174,7 @@ const UserAreasMap: FC<PropsWithChildren<IProps>> = props => {
       showKeyLegend={!alwaysHideKeyLegend && !!selectedAreaId}
       {...rest}
     >
-      {areaMap.map(area =>
+      {areaMap.map((area: any) =>
         area ? (
           <Polygon
             key={area.id}

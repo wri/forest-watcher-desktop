@@ -25,17 +25,18 @@ it("Toggle Input should render correctly unspecified", () => {
       >
         <label
           class="c-input__label"
-          for="headlessui-switch-:r1:"
-          id="headlessui-label-:r0:"
+          data-headlessui-state=""
+          for="headlessui-switch-undefined"
+          id="headlessui-label-undefined"
         >
           Hello
         </label>
         <button
           aria-checked="false"
-          aria-labelledby="headlessui-label-:r0:"
+          aria-labelledby="headlessui-label-undefined"
           class="c-input__toggle"
           data-headlessui-state=""
-          id="headlessui-switch-:r1:"
+          id="headlessui-switch-undefined"
           role="switch"
           tabindex="0"
           type="button"
@@ -67,17 +68,19 @@ it("Toggle Input should render correctly as true", () => {
       >
         <label
           class="c-input__label"
-          for="headlessui-switch-:r3:"
-          id="headlessui-label-:r2:"
+          data-headlessui-state=""
+          for="headlessui-switch-undefined"
+          id="headlessui-label-undefined"
         >
           Hello
         </label>
         <button
           aria-checked="true"
-          aria-labelledby="headlessui-label-:r2:"
+          aria-labelledby="headlessui-label-undefined"
           class="c-input__toggle c-input__toggle--on"
+          data-checked=""
           data-headlessui-state="checked"
-          id="headlessui-switch-:r3:"
+          id="headlessui-switch-undefined"
           role="switch"
           tabindex="0"
           type="button"
@@ -109,17 +112,18 @@ it("Toggle Input should render correctly as false", () => {
       >
         <label
           class="c-input__label"
-          for="headlessui-switch-:r5:"
-          id="headlessui-label-:r4:"
+          data-headlessui-state=""
+          for="headlessui-switch-undefined"
+          id="headlessui-label-undefined"
         >
           Hello
         </label>
         <button
           aria-checked="false"
-          aria-labelledby="headlessui-label-:r4:"
+          aria-labelledby="headlessui-label-undefined"
           class="c-input__toggle"
           data-headlessui-state=""
-          id="headlessui-switch-:r5:"
+          id="headlessui-switch-undefined"
           role="switch"
           tabindex="0"
           type="button"

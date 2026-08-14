@@ -62,7 +62,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
       (getValues(
         // @ts-ignore
         `questions.${questionIndex}.values.${defaultLanguage as keyof typeof question.label}`
-      ) as valuesType) || [];
+      ) as unknown as valuesType) || [];
 
     // @ts-ignore
     const newQs = [...values];
@@ -83,7 +83,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
       (getValues(
         // @ts-ignore
         `questions.${questionIndex}.values.${defaultLanguage as keyof typeof question.label}`
-      ) as valuesType) || [];
+      ) as unknown as valuesType) || [];
 
     // @ts-ignore
     values.push({
@@ -146,7 +146,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
     const values = getValues(
       // @ts-ignore
       `questions.${index}.values.${defaultLanguage as keyof typeof question.label}`
-    ) as valuesType;
+    ) as unknown as valuesType;
 
     if (isConditional && !values) {
       // @ts-ignore incorrect typings
@@ -159,7 +159,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
 
   useEffect(() => {
     // Remove old lang data
-    const currentQuestionTitle = getValues(`questions.${index}.label`);
+    const currentQuestionTitle = getValues(`questions.${index}.label`) ?? {};
 
     const newTitle: any = {};
 
@@ -169,7 +169,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
     setValue(`questions.${index}.label`, newTitle, { shouldDirty: true });
 
     // Check values (select etc..)
-    const currentQuestionValues = getValues(`questions.${index}.values`);
+    const currentQuestionValues = getValues(`questions.${index}.values`) ?? {};
 
     if (currentQuestionValues?.[previousDefaultLang as keyof typeof currentQuestionValues]) {
       const newValues: any = {};
@@ -238,7 +238,7 @@ const TemplateQuestion = ({ question, defaultLanguage = "", onDelete, index }: T
                 }}
                 registered={register(`questions.${index}.maxImageCount`, { valueAsNumber: true })}
                 alternateLabelStyle
-                error={errors?.questions && errors?.questions[index] && errors?.questions[index].maxImageCount}
+                error={errors?.questions?.[index]?.maxImageCount}
               />
             </div>
           </OptionalWrapper>

@@ -4,10 +4,10 @@ import Button from "components/ui/Button/Button";
 import { FieldError } from "components/ui/Form/FieldError";
 import IconBubble from "components/ui/Icon/IconBubble";
 import classnames from "classnames";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactElement } from "react";
 import { FormattedMessage } from "react-intl";
 import { Switch } from "@headlessui/react";
-import { Control, Path, useController, UseControllerProps, useWatch } from "react-hook-form";
+import { Control, Path, useController, UseControllerProps, useWatch, FieldValues } from "react-hook-form";
 
 type TMultiSelectDialogGroup = {
   options: { value: string; label: string }[];
@@ -21,7 +21,7 @@ export interface IProps {
   groups: TMultiSelectDialogGroups;
 }
 
-export interface IMultiSelectDialogPreviewProps<T> {
+export interface IMultiSelectDialogPreviewProps<T extends FieldValues> {
   className?: string;
   // ToDo: Maybe UseWatcherProps<T>
   control: Control<T>;
@@ -43,7 +43,7 @@ interface IMultiSelectDialogComposition {
   Preview: typeof MultiSelectDialogPreview;
 }
 
-const MultiSelectDialog: (<T>(props: IProps & UseControllerProps<T>) => JSX.Element) &
+const MultiSelectDialog: (<T extends FieldValues>(props: IProps & UseControllerProps<T>) => ReactElement) &
   IMultiSelectDialogComposition = props => {
   const { groups, ...controlProps } = props;
   const { field } = useController(controlProps);
@@ -135,7 +135,7 @@ const MultiSelectDialog: (<T>(props: IProps & UseControllerProps<T>) => JSX.Elem
   );
 };
 
-const MultiSelectDialogPreview = <T,>(props: IMultiSelectDialogPreviewProps<T>) => {
+const MultiSelectDialogPreview = <T extends FieldValues>(props: IMultiSelectDialogPreviewProps<T>) => {
   const {
     className,
     label,

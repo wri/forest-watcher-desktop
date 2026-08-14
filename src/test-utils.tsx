@@ -1,18 +1,30 @@
 // test-utils.js
-import { FC } from "react";
+import { FC, type ReactElement } from "react";
 import { render as rtlRender } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { DEFAULT_LANGUAGE } from "constants/global";
 import { IntlProvider } from "react-intl";
 import translations from "locales/index.js";
-import store from "./store";
+
+const observableSymbol =
+  typeof Symbol === "function" && (Symbol as any).observable ? (Symbol as any).observable : "@@observable";
+
+const defaultStore = {
+  getState: () => ({}),
+  dispatch: (action: any) => action,
+  subscribe: () => () => undefined,
+  replaceReducer: () => undefined,
+  [observableSymbol]: function () {
+    return this;
+  }
+};
 
 interface WrapperProps {
   children?: React.ReactNode;
 }
 
-function render(ui: JSX.Element, { storeConfig = store, ...renderOptions } = {}) {
+function render(ui: ReactElement, { storeConfig = defaultStore, ...renderOptions } = {}) {
   const Wrapper: FC<WrapperProps> = ({ children }) => {
     return (
       <IntlProvider
@@ -27,7 +39,7 @@ function render(ui: JSX.Element, { storeConfig = store, ...renderOptions } = {})
           throw err;
         }}
       >
-        <Provider store={storeConfig}>
+        <Provider store={storeConfig as any}>
           <Router>{children}</Router>
         </Provider>
       </IntlProvider>

@@ -5,7 +5,6 @@ import yup from "configureYup";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { IProps as IModalProps } from "components/modals/FormModal";
 import { useIntl } from "react-intl";
-import { UnpackNestedValue } from "react-hook-form";
 import { download } from "helpers/exports";
 import LinkPreview from "components/ui/LinkPreview/LinkPreview";
 import { bitlyService } from "services/bitly";
@@ -19,7 +18,7 @@ export type TExportForm = {
 
 interface IProps {
   onClose: IModalProps<TExportForm>["onClose"];
-  onSave: (data: UnpackNestedValue<TExportForm>) => Promise<string | void>;
+  onSave: (data: TExportForm) => Promise<string | void>;
   isOpen: IModalProps<TExportForm>["isOpen"];
   fileTypes: {
     label: string;
@@ -133,7 +132,7 @@ const ExportModal: FC<IProps> = ({ onClose, onSave, isOpen, fileTypes, fields, d
     return toReturn;
   }, [fields, fileTypes, intl, downloadMethod]);
 
-  const handleSave = async (resp: UnpackNestedValue<TExportForm>) => {
+  const handleSave = async (resp: TExportForm) => {
     if (resp.downloadMethod === "link") {
       onClose?.();
 
@@ -148,7 +147,7 @@ const ExportModal: FC<IProps> = ({ onClose, onSave, isOpen, fileTypes, fields, d
     onClose?.();
   };
 
-  const generateShortenedLink = async (resp: UnpackNestedValue<TExportForm>) => {
+  const generateShortenedLink = async (resp: TExportForm) => {
     setIsReportURLLoading(true);
     const saveResp = await onSave(resp);
     if (saveResp) {
@@ -169,7 +168,7 @@ const ExportModal: FC<IProps> = ({ onClose, onSave, isOpen, fileTypes, fields, d
       hideUnsavedChangesModal
       useFormProps={{
         mode: downloadMethod === "link" ? "onChange" : "onSubmit",
-        resolver: yupResolver(downloadMethod === "email" ? exportSchemaWithEmail : exportSchema),
+        resolver: yupResolver(downloadMethod === "email" ? exportSchemaWithEmail : exportSchema) as any,
         defaultValues: { downloadMethod: "download", fields: defaultSelectedFields || [] }
       }}
       inputs={inputs}

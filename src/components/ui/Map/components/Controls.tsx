@@ -1,7 +1,7 @@
 import MapLegendControl from "components/ui/Map/components/MapLegendControl";
 import { FC, HTMLAttributes, useCallback, useEffect, useMemo } from "react";
 import classnames from "classnames";
-import { LngLatBoundsLike, useMap } from "react-map-gl";
+import { LngLatBoundsLike, useMap } from "react-map-gl/mapbox";
 import ZoomInIcon from "assets/images/icons/Plus.svg";
 import ZoomOutIcon from "assets/images/icons/Minus.svg";
 import SearchIcon from "assets/images/icons/Search.svg";
@@ -70,7 +70,7 @@ const MapControls: FC<IProps> = props => {
     control
   } = formHook;
 
-  const selectedCountry = useWatch({ control, name: "country" });
+  const selectedCountry = useWatch({ control, name: "country" as any });
 
   const intl = useIntl();
 
@@ -90,7 +90,7 @@ const MapControls: FC<IProps> = props => {
       switch (except) {
         case inputs.langLat:
           // Clear geocoder and country
-          resetField("country");
+          resetField("country" as any);
           geocoder?.setInput("");
 
           break;
@@ -104,7 +104,7 @@ const MapControls: FC<IProps> = props => {
           // clear country and langlat
           resetField("lng");
           resetField("lat");
-          resetField("country");
+          resetField("country" as any);
           break;
       }
     },
@@ -194,7 +194,7 @@ const MapControls: FC<IProps> = props => {
                   <Select
                     id="country"
                     formHook={formHook}
-                    registered={register("country")}
+                    registered={register("country" as any)}
                     selectProps={{
                       placeholder: intl.formatMessage({ id: "components.map.selectACountry" }),
                       options: countriesOptions,

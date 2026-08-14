@@ -289,7 +289,7 @@ const Template: ComponentStory<typeof Timeframe> = args => {
   const [index, setIndex] = useState(periodSelectedIndex);
   return (
     <div style={{ maxWidth: 465 }}>
-      <Timeframe {...args} selected={index} onChange={value => setIndex(periodOptions.indexOf(value))} />
+      <Timeframe {...args} selected={index} onChange={(value: any) => setIndex(periodOptions.indexOf(value))} />
     </div>
   );
 };

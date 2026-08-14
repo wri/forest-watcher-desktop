@@ -90,7 +90,7 @@ describe("TeamCard", () => {
               <h3
                 class="c-teams__sub-title"
               >
-                2 Managers:
+                {num, plural, one {# Manager} other {# Managers}}:
               </h3>
               <p>
                 user@test.com, user+gfw1@test.com
@@ -100,7 +100,7 @@ describe("TeamCard", () => {
               <h3
                 class="c-teams__sub-title"
               >
-                1 Monitor:
+                {num, plural, one {# Monitor} other {# Monitors}}:
               </h3>
               <p>
                 user+gfw@test.com

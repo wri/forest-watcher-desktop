@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Map from "components/ui/Map/Map";
 import MapComparison from "./MapComparison";
-import ReactMap from "react-map-gl";
+import ReactMap from "react-map-gl/mapbox";
 import Polygon from "components/ui/Map/components/layers/Polygon";
 import { CSSProperties, useState } from "react";
 import Button from "components/ui/Button/Button";

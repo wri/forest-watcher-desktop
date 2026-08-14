@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
-import { UseControllerProps, useController, ControllerRenderProps } from "react-hook-form";
+import { UseControllerProps, useController, ControllerRenderProps, FieldValues } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
 import { FieldError } from "../FieldError";
 import errorIcon from "assets/images/icons/Error.svg";
@@ -12,7 +12,7 @@ export interface IProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTex
   error?: any;
 }
 
-const TextAreaControlled = <T extends Record<any, any>>(
+const TextAreaControlled = <T extends FieldValues>(
   props: UseControllerProps<T> & Omit<IProps, keyof ControllerRenderProps<T>>
 ) => {
   const {

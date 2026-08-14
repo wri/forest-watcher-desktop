@@ -1,14 +1,13 @@
 import { FC, useEffect, useMemo, useState } from "react";
-import { Layer, LngLatBoundsLike, Source, useMap } from "react-map-gl";
+import { Layer, LngLatBoundsLike, Source, useMap } from "react-map-gl/mapbox";
 import { polygonStyle, polygonLineStyle, polygonLineStyleHover, labelStyle } from "./styles";
 import * as turf from "@turf/turf";
 import { AllGeoJSON } from "@turf/turf";
 import { TAreasResponse } from "services/area";
-import { GeoJSONSourceOptions } from "mapbox-gl";
 
 export interface IProps {
   id: string;
-  data: GeoJSONSourceOptions["data"] | TAreasResponse["attributes"]["geostore"]["geojson"];
+  data: any | TAreasResponse["attributes"]["geostore"]["geojson"];
   onClick?: (id: string, point?: mapboxgl.Point) => void;
   label?: string;
   isSelected?: boolean;
@@ -54,11 +53,7 @@ const Polygon: FC<IProps> = props => {
   }, [id, map]);
 
   useEffect(() => {
-    const click = (
-      e: mapboxgl.MapMouseEvent & {
-        features?: mapboxgl.MapboxGeoJSONFeature[] | undefined;
-      } & mapboxgl.EventData
-    ) => {
+    const click = (e: any) => {
       const { features } = e;
       const zoomLevel = map?.getZoom();
 
@@ -90,7 +85,7 @@ const Polygon: FC<IProps> = props => {
           />
         </Source>
       )}
-      <Source id={id} data={data as GeoJSONSourceOptions["data"]} type="geojson" tolerance={0.00001}>
+      <Source id={id} data={data as any} type="geojson" tolerance={0.00001}>
         {/* @ts-ignore */}
         <Layer
           {...polygonStyle}

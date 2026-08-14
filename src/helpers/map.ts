@@ -1,6 +1,6 @@
 import { EAlertTypes } from "constants/alerts";
 import KDBush from "kdbush";
-import geoKDBush from "geokdbush";
+import * as geoKDBush from "geokdbush";
 import { Map as MapInstance, LngLatBoundsLike, GeoJSONSource } from "mapbox-gl";
 import labelBackgroundIcon from "assets/images/icons/MapLabelFrame.png";
 import reportNotSelectedIcon from "assets/images/icons/alertIcons/ReportNotSelected.png";
@@ -29,7 +29,7 @@ import blankIcon from "assets/images/icons/routeIcons/Blank.png";
 import L from "leaflet";
 import * as turf from "@turf/turf";
 import { GeoJsonProperties } from "geojson";
-import { MapRef } from "react-map-gl";
+import { MapRef } from "react-map-gl/mapbox";
 import { AlertLayerColours, AssignmentLayerColours, ReportLayerColours, ReportLayers, TAlertsById } from "types/map";
 
 export enum MapImages {
@@ -169,7 +169,7 @@ export const loadMapImage = (map: MapInstance, url: string): Promise<HTMLImageEl
       if (error) {
         reject(error);
       } else {
-        resolve(image);
+        resolve(image as HTMLImageElement | ImageBitmap | undefined);
       }
     });
   });
@@ -181,7 +181,7 @@ export const setupMapImages = (map: MapInstance) => {
       const image = await loadMapImage(map, mapImage.image);
 
       if (image) {
-        map.addImage(mapImage.type, image, mapImage.options);
+        map.addImage(mapImage.type, image, mapImage.options as any);
       }
     })
   );
@@ -286,10 +286,34 @@ export const goToGeojson = (
   animate = true,
   mapOptions?: mapboxgl.FitBoundsOptions
 ) => {
-  const bbox = turf.bbox(geojson);
-  if (map && bbox.length > 0) {
-    map.fitBounds(bbox as LngLatBoundsLike, { padding: 40, animate, ...mapOptions });
+  if (!map || !geojson) {
+    return false;
   }
+
+  const parsedGeojson =
+    typeof geojson === "string"
+      ? (() => {
+          try {
+            return JSON.parse(geojson);
+          } catch (error) {
+            return null;
+          }
+        })()
+      : geojson;
+
+  if (!parsedGeojson) {
+    return false;
+  }
+
+  const bbox = turf.bbox(parsedGeojson);
+  const isValidBbox = bbox.length === 4 && bbox.every(coord => Number.isFinite(coord));
+
+  if (isValidBbox) {
+    map.fitBounds(bbox as LngLatBoundsLike, { padding: 40, animate, ...mapOptions });
+    return true;
+  }
+
+  return false;
 };
 
 export const createLayeredClusterSVG = (props: GeoJsonProperties, colours = ["#94BE43"]) => {
@@ -346,7 +370,7 @@ export const clusterZoom = (map: MapRef, clusterId: any, sourceId: string, coord
 
     map.easeTo({
       center: coords,
-      zoom: zoom
+      zoom: zoom ?? undefined
     });
   });
 };

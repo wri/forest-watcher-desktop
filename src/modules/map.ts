@@ -19,7 +19,10 @@ const initialState: TMapState = {
 
 export type TReducerActions =
   | { type: typeof SET_PLANET_BASEMAPS; payload: IPlanetBasemap[] }
-  | { type: typeof SET_FETCHING; payload: any };
+  | {
+      type: typeof SET_FETCHING;
+      payload: any;
+    };
 
 export default function reducer(state = initialState, action: TReducerActions): TMapState {
   switch (action.type) {
