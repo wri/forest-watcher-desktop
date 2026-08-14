@@ -6,13 +6,18 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { DEFAULT_LANGUAGE } from "constants/global";
 import { IntlProvider } from "react-intl";
 import translations from "locales/index.js";
-import store from "./store";
+
+const defaultStore = {
+  getState: () => ({}),
+  dispatch: () => undefined,
+  subscribe: () => () => undefined
+};
 
 interface WrapperProps {
   children?: React.ReactNode;
 }
 
-function render(ui: ReactElement, { storeConfig = store, ...renderOptions } = {}) {
+function render(ui: ReactElement, { storeConfig = defaultStore, ...renderOptions } = {}) {
   const Wrapper: FC<WrapperProps> = ({ children }) => {
     return (
       <IntlProvider

@@ -42,9 +42,6 @@ describe("ContextMenu Component", () => {
             src="kebab-hover.svg"
           />
         </button>
-        <div
-          class="szh-menu-container szh-menu-container--itemTransition"
-        />
       </div>
     `);
   });
@@ -82,12 +79,13 @@ describe("ContextMenu Component", () => {
         </button>
         <div
           class="szh-menu-container szh-menu-container--itemTransition"
+          style="position: absolute;"
         >
           <ul
             aria-label="Menu"
-            class="szh-menu szh-menu--state-open szh-menu--dir-bottom c-context-menu"
+            class="szh-menu szh-menu--state-open szh-menu--align-start szh-menu--dir-bottom c-context-menu"
             role="menu"
-            style="left: 0px; top: 0px;"
+            style="margin: 0px; position: absolute; left: 0px; top: 0px;"
             tabindex="-1"
           >
             <li
@@ -153,12 +151,13 @@ describe("ContextMenu Component", () => {
         </button>
         <div
           class="szh-menu-container szh-menu-container--itemTransition"
+          style="position: absolute;"
         >
           <ul
             aria-label="Menu"
-            class="szh-menu szh-menu--state-closed szh-menu--dir-bottom c-context-menu"
+            class="szh-menu szh-menu--state-closed szh-menu--align-start szh-menu--dir-bottom c-context-menu"
             role="menu"
-            style="left: 0px; top: 0px;"
+            style="margin: 0px; position: absolute; left: 0px; top: 0px; display: none;"
             tabindex="-1"
           >
             <li
@@ -219,12 +218,13 @@ describe("ContextMenu Component", () => {
         </button>
         <div
           class="szh-menu-container szh-menu-container--itemTransition"
+          style="position: absolute;"
         >
           <ul
             aria-label="Menu"
-            class="szh-menu szh-menu--state-open szh-menu--dir-bottom c-context-menu myMenuClassName"
+            class="szh-menu szh-menu--state-open szh-menu--align-start szh-menu--dir-bottom c-context-menu myMenuClassName"
             role="menu"
-            style="left: 0px; top: 0px;"
+            style="margin: 0px; position: absolute; left: 0px; top: 0px;"
             tabindex="-1"
           >
             <li

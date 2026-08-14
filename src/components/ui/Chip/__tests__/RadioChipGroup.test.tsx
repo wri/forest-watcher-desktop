@@ -34,18 +34,18 @@ describe("RadioChipGroup Component", () => {
       <div>
         <div
           class="my-class-name c-radio-chip-group"
-          id="headlessui-radiogroup-:r0:"
+          id="headlessui-radiogroup-undefined"
           role="radiogroup"
         >
           <div
             class="c-radio-chip-group__options"
-            role="none"
           >
             <div
               aria-checked="true"
               class="my-class-name c-radio-chip-group__item"
+              data-checked=""
               data-headlessui-state="checked"
-              id="headlessui-radiogroup-option-:r1:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="0"
             >
@@ -59,7 +59,7 @@ describe("RadioChipGroup Component", () => {
               aria-checked="false"
               class="my-class-name c-radio-chip-group__item"
               data-headlessui-state=""
-              id="headlessui-radiogroup-option-:r2:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="-1"
             >
@@ -73,7 +73,7 @@ describe("RadioChipGroup Component", () => {
               aria-checked="false"
               class="my-class-name c-radio-chip-group__item"
               data-headlessui-state=""
-              id="headlessui-radiogroup-option-:r3:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="-1"
             >
@@ -97,27 +97,27 @@ describe("RadioChipGroup Component", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <div
-          aria-labelledby="headlessui-label-:r5:"
+          aria-labelledby="headlessui-label-undefined"
           class="c-radio-chip-group"
-          id="headlessui-radiogroup-:r4:"
+          id="headlessui-radiogroup-undefined"
           role="radiogroup"
         >
-          <label
+          <div
             class="c-radio-chip-group__label"
-            id="headlessui-label-:r5:"
-            role="none"
+            data-headlessui-state=""
+            id="headlessui-label-undefined"
           >
             my.label
-          </label>
+          </div>
           <div
             class="c-radio-chip-group__options"
-            role="none"
           >
             <div
               aria-checked="true"
               class="my-class-name c-radio-chip-group__item"
+              data-checked=""
               data-headlessui-state="checked"
-              id="headlessui-radiogroup-option-:r6:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="0"
             >
@@ -131,7 +131,7 @@ describe("RadioChipGroup Component", () => {
               aria-checked="false"
               class="my-class-name c-radio-chip-group__item"
               data-headlessui-state=""
-              id="headlessui-radiogroup-option-:r7:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="-1"
             >
@@ -145,7 +145,7 @@ describe("RadioChipGroup Component", () => {
               aria-checked="false"
               class="my-class-name c-radio-chip-group__item"
               data-headlessui-state=""
-              id="headlessui-radiogroup-option-:r8:"
+              id="headlessui-radiogroup-option-undefined"
               role="radio"
               tabindex="-1"
             >

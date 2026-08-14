@@ -39,14 +39,15 @@ describe("TabGroup Component", () => {
       <div>
         <div
           class="my-class-name c-tab-group"
-          id="headlessui-radiogroup-:r0:"
+          id="headlessui-radiogroup-undefined"
           role="radiogroup"
         >
           <div
             aria-checked="true"
             class="my-class-name c-tab-group__item"
+            data-checked=""
             data-headlessui-state="checked"
-            id="headlessui-radiogroup-option-:r1:"
+            id="headlessui-radiogroup-option-undefined"
             role="radio"
             tabindex="0"
           >
@@ -64,7 +65,7 @@ describe("TabGroup Component", () => {
             aria-checked="false"
             class="my-class-name c-tab-group__item"
             data-headlessui-state=""
-            id="headlessui-radiogroup-option-:r2:"
+            id="headlessui-radiogroup-option-undefined"
             role="radio"
             tabindex="-1"
           >
@@ -94,14 +95,14 @@ describe("TabGroup Component", () => {
       <div>
         <div
           class="c-tab-group"
-          id="headlessui-radiogroup-:r3:"
+          id="headlessui-radiogroup-undefined"
           role="radiogroup"
         >
           <div
             aria-checked="false"
             class="my-class-name c-tab-group__item"
             data-headlessui-state=""
-            id="headlessui-radiogroup-option-:r4:"
+            id="headlessui-radiogroup-option-undefined"
             role="radio"
             tabindex="-1"
           >
@@ -118,8 +119,9 @@ describe("TabGroup Component", () => {
           <div
             aria-checked="true"
             class="my-class-name c-tab-group__item"
+            data-checked=""
             data-headlessui-state="checked"
-            id="headlessui-radiogroup-option-:r5:"
+            id="headlessui-radiogroup-option-undefined"
             role="radio"
             tabindex="0"
           >

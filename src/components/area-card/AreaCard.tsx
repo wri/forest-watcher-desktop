@@ -1,6 +1,5 @@
 import { FC, HTMLAttributes, ReactEventHandler } from "react";
 import { FormattedMessage } from "react-intl";
-import * as turf from "@turf/turf";
 import Card from "components/ui/Card/Card";
 import EditIcon from "assets/images/icons/Edit.svg";
 import classNames from "classnames";
@@ -36,8 +35,21 @@ const getAreaPreviewSrc = (area: AreaResponse["data"]) => {
       return DefaultAreaThumbnail;
     }
 
-    const geometryForBbox = { type: "Feature", geometry, properties: {} };
-    const [minX, minY, maxX, maxY] = turf.bbox(geometryForBbox as any);
+    const validPoints = ring.filter((point: any) => Array.isArray(point) && point.length >= 2);
+    if (!validPoints.length) {
+      return DefaultAreaThumbnail;
+    }
+
+    const lons = validPoints.map((point: any) => Number(point[0])).filter((value: number) => Number.isFinite(value));
+    const lats = validPoints.map((point: any) => Number(point[1])).filter((value: number) => Number.isFinite(value));
+    if (!lons.length || !lats.length) {
+      return DefaultAreaThumbnail;
+    }
+
+    const minX = Math.min(...lons);
+    const maxX = Math.max(...lons);
+    const minY = Math.min(...lats);
+    const maxY = Math.max(...lats);
     const width = 240;
     const height = 140;
 
@@ -47,10 +59,7 @@ const getAreaPreviewSrc = (area: AreaResponse["data"]) => {
       return `${x.toFixed(2)},${y.toFixed(2)}`;
     };
 
-    const polygonPoints = ring
-      .filter((point: any) => Array.isArray(point) && point.length >= 2)
-      .map(toSvgPoint)
-      .join(" ");
+    const polygonPoints = validPoints.map(toSvgPoint).join(" ");
 
     if (!polygonPoints) {
       return DefaultAreaThumbnail;
