@@ -4,7 +4,6 @@ import { useGetV3GfwRoutesTeams, useGetV3GfwRoutesUser } from "generated/core/co
 import { RouteModel } from "generated/core/coreSchemas";
 import { fireGAEvent } from "helpers/analytics";
 import { useAccessToken } from "hooks/useAccessToken";
-import { MapMouseEvent } from "mapbox-gl";
 import { FC, useContext, useEffect, useMemo } from "react";
 import { Layer, Source, useMap } from "react-map-gl/mapbox";
 import { MonitoringActions, MonitoringLabel } from "types/analytics";

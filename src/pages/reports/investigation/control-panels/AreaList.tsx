@@ -1,5 +1,6 @@
 import { FC, ReactEventHandler, useMemo } from "react";
 import { RouteComponentProps, useLocation } from "react-router-dom";
+import * as turf from "@turf/turf";
 import MapCard from "components/ui/Map/components/cards/MapCard";
 import Card from "components/ui/Card/Card";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -7,6 +8,69 @@ import Loader from "components/ui/Loader";
 import useUrlQuery from "hooks/useUrlQuery";
 import useGetAreas from "hooks/querys/areas/useGetAreas";
 import DefaultAreaThumbnail from "assets/images/DefaultAreaThumbnail.svg";
+
+const getAreaPreviewSrc = (area: any) => {
+  const imageSrc = area?.attributes?.image;
+
+  if (imageSrc) {
+    return imageSrc;
+  }
+
+  const geojson = area?.attributes?.geostore?.geojson as any;
+
+  if (!geojson) {
+    return DefaultAreaThumbnail;
+  }
+
+  try {
+    const parsedGeojson = typeof geojson === "string" ? JSON.parse(geojson) : geojson;
+    const geometry =
+      parsedGeojson?.type === "FeatureCollection"
+        ? parsedGeojson.features?.[0]?.geometry
+        : parsedGeojson?.geometry || parsedGeojson;
+    const coordinates = geometry?.coordinates;
+
+    if (!coordinates || !Array.isArray(coordinates)) {
+      return DefaultAreaThumbnail;
+    }
+
+    const ring = Array.isArray(coordinates[0]) && Array.isArray(coordinates[0][0]) ? coordinates[0] : coordinates;
+    if (!Array.isArray(ring) || !ring.length || !Array.isArray(ring[0])) {
+      return DefaultAreaThumbnail;
+    }
+
+    const geometryForBbox = { type: "Feature", geometry, properties: {} };
+    const [minX, minY, maxX, maxY] = turf.bbox(geometryForBbox as any);
+    const width = 240;
+    const height = 140;
+
+    const toSvgPoint = ([lng, lat]: number[]) => {
+      const x = ((lng - minX) / (maxX - minX || 1)) * width;
+      const y = height - ((lat - minY) / (maxY - minY || 1)) * height;
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    };
+
+    const polygonPoints = ring
+      .filter((point: any) => Array.isArray(point) && point.length >= 2)
+      .map(toSvgPoint)
+      .join(" ");
+
+    if (!polygonPoints) {
+      return DefaultAreaThumbnail;
+    }
+
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}">
+        <rect width="100%" height="100%" fill="#edf5ee" />
+        <polygon points="${polygonPoints}" fill="#94BE43" stroke="#2f6f38" stroke-width="3" />
+      </svg>
+    `;
+
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  } catch (error) {
+    return DefaultAreaThumbnail;
+  }
+};
 
 interface IProps extends RouteComponentProps {}
 
@@ -37,13 +101,14 @@ const AreaListAreaCard: FC<{ area: any; teamId?: string }> = ({ area, teamId }) 
   const handleThumbnailLoadError: ReactEventHandler<HTMLImageElement> = e => {
     e.currentTarget.src = DefaultAreaThumbnail;
   };
+  const imageSrc = getAreaPreviewSrc(area);
 
   return (
     <div className="c-map-control-panel__grid-item" ref={el => handleCardRef(area.id, el)}>
       <Card className="c-map-control-panel__area-card" size="small">
         <Card.Image
           alt=""
-          src={area.attributes.image}
+          src={imageSrc}
           loading="lazy"
           className="c-area-card__image c-map-control-panel__area-card-image"
           onError={handleThumbnailLoadError}

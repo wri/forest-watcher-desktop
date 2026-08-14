@@ -286,10 +286,34 @@ export const goToGeojson = (
   animate = true,
   mapOptions?: mapboxgl.FitBoundsOptions
 ) => {
-  const bbox = turf.bbox(geojson);
-  if (map && bbox.length > 0) {
-    map.fitBounds(bbox as LngLatBoundsLike, { padding: 40, animate, ...mapOptions });
+  if (!map || !geojson) {
+    return false;
   }
+
+  const parsedGeojson =
+    typeof geojson === "string"
+      ? (() => {
+          try {
+            return JSON.parse(geojson);
+          } catch (error) {
+            return null;
+          }
+        })()
+      : geojson;
+
+  if (!parsedGeojson) {
+    return false;
+  }
+
+  const bbox = turf.bbox(parsedGeojson);
+  const isValidBbox = bbox.length === 4 && bbox.every(coord => Number.isFinite(coord));
+
+  if (isValidBbox) {
+    map.fitBounds(bbox as LngLatBoundsLike, { padding: 40, animate, ...mapOptions });
+    return true;
+  }
+
+  return false;
 };
 
 export const createLayeredClusterSVG = (props: GeoJsonProperties, colours = ["#94BE43"]) => {

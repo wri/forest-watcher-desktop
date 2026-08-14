@@ -4,7 +4,7 @@ import useGetAreaById from "hooks/querys/areas/useGetAreaById";
 import useGetAllReportAnswersForUser from "hooks/querys/reportAnwsers/useGetAllReportAnswersForUser";
 import useGetUserTeams from "hooks/querys/teams/useGetUserTeams";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Map as MapInstance, MapboxEvent } from "mapbox-gl";
+import { LngLatBoundsLike, Map as MapInstance, MapboxEvent } from "mapbox-gl";
 import { FormattedMessage, useIntl } from "react-intl";
 import { goToGeojson } from "helpers/map";
 import Loader from "components/ui/Loader";
@@ -87,7 +87,39 @@ const AreasView: FC<IProps & RouteComponentProps<TParams>> = props => {
     return hasPermissions;
   }, [isMyArea, managedTeams, areaTeams]);
 
-  const geojson = useMemo(() => area?.attributes?.geostore?.geojson, [area]);
+  const geojson = useMemo(() => {
+    const rawGeojson = area?.attributes?.geostore?.geojson;
+
+    if (!rawGeojson) {
+      return null;
+    }
+
+    if (typeof rawGeojson === "string") {
+      try {
+        return JSON.parse(rawGeojson);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    return rawGeojson;
+  }, [area]);
+
+  const geostoreBbox = useMemo(() => {
+    const rawBbox = area?.attributes?.geostore?.bbox;
+
+    if (!rawBbox || rawBbox.length !== 4) {
+      return null;
+    }
+
+    const parsedBbox = rawBbox.map(coord => Number(coord));
+
+    if (parsedBbox.some(coord => !Number.isFinite(coord))) {
+      return null;
+    }
+
+    return parsedBbox as [number, number, number, number];
+  }, [area]);
 
   const templatesToAdd = useMemo(() => {
     return (
@@ -107,10 +139,22 @@ const AreasView: FC<IProps & RouteComponentProps<TParams>> = props => {
   };
 
   useEffect(() => {
-    if (geojson) {
-      goToGeojson(mapRef, geojson, false);
+    if (!mapRef) {
+      return;
     }
-  }, [geojson, mapRef]);
+
+    const didZoomToGeojson = geojson ? goToGeojson(mapRef, geojson, false) : false;
+
+    if (!didZoomToGeojson && geostoreBbox) {
+      mapRef.fitBounds(
+        [
+          [geostoreBbox[0], geostoreBbox[1]],
+          [geostoreBbox[2], geostoreBbox[3]]
+        ] as LngLatBoundsLike,
+        { padding: 40, animate: false }
+      );
+    }
+  }, [geojson, geostoreBbox, mapRef]);
 
   const removeTemplate: TTemplateDataTableAction = {
     name: "areas.details.templates.remove.title",
@@ -182,7 +226,7 @@ const AreasView: FC<IProps & RouteComponentProps<TParams>> = props => {
         ) : (
           area &&
           geojson && (
-            <Map className="c-map--within-hero" onMapLoad={handleMapLoad} showKeyLegend>
+            <Map className="c-map--within-hero" onMapLoad={handleMapLoad} showKeyLegend uncontrolled>
               <Polygon id={area?.id || ""} label={area?.attributes?.name} data={geojson} />
             </Map>
           )
