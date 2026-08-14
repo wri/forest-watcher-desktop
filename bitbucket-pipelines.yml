@@ -2,7 +2,7 @@ pipelines:
   definitions:
     - step: &install_and_test
         name: Install and run tests
-        image: node:16.14.0
+        image: node:22
         caches:
           - node
         script:
@@ -10,7 +10,7 @@ pipelines:
           - npm test
     - step: &build
         name: Build Project
-        image: node:16.14.0
+        image: node:22
         deployment: test
         caches:
           - node
@@ -21,7 +21,7 @@ pipelines:
     - step: &build_storybook
         size: 2x
         name: Build Storybook
-        image: node:16.14.0
+        image: node:22
         caches:
           - node
         artifacts:
