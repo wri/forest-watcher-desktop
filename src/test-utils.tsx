@@ -9,8 +9,12 @@ import translations from "locales/index.js";
 
 const defaultStore = {
   getState: () => ({}),
-  dispatch: () => undefined,
-  subscribe: () => () => undefined
+  dispatch: (action: any) => action,
+  subscribe: () => () => undefined,
+  replaceReducer: () => undefined,
+  [Symbol.observable]: () => ({
+    subscribe: () => ({ unsubscribe: () => undefined })
+  })
 };
 
 interface WrapperProps {
@@ -32,7 +36,7 @@ function render(ui: ReactElement, { storeConfig = defaultStore, ...renderOptions
           throw err;
         }}
       >
-        <Provider store={storeConfig}>
+        <Provider store={storeConfig as any}>
           <Router>{children}</Router>
         </Provider>
       </IntlProvider>
