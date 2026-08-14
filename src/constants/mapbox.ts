@@ -3,21 +3,31 @@ import MapLightImage from "assets/images/icons/MapLight.png";
 import MapDarkImage from "assets/images/icons/MapDark.png";
 import MapPlanetImage from "assets/images/icons/MapPlanet.png";
 
+const MAPBOX_PREVIEW_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
+
+const getMapPreviewUrl = (styleId: string, fallbackImage: string) => {
+  if (!MAPBOX_PREVIEW_TOKEN) {
+    return fallbackImage;
+  }
+
+  return `https://api.mapbox.com/styles/v1/mapbox/${styleId}/static/-5.9095,54.6064,6.9,0/300x182?access_token=${MAPBOX_PREVIEW_TOKEN}`;
+};
+
 export const BASEMAPS = {
   satellite: {
     key: "maps.satellite",
     style: "mapbox://styles/mapbox/satellite-v9",
-    image: MapSatImage
+    image: getMapPreviewUrl("satellite-v9", MapSatImage)
   },
   light: {
     key: "maps.light",
     style: "mapbox://styles/mapbox/light-v11",
-    image: MapLightImage
+    image: getMapPreviewUrl("light-v11", MapLightImage)
   },
   dark: {
     key: "maps.dark",
     style: "mapbox://styles/mapbox/dark-v11",
-    image: MapDarkImage
+    image: getMapPreviewUrl("dark-v11", MapDarkImage)
   }
 };
 
