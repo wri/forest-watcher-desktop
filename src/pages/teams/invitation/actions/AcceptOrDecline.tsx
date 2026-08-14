@@ -110,7 +110,8 @@ const RemoveTeamMemberModal: FC<IProps> = props => {
       toastr.success(intl.formatMessage({ id: config.successMessage }), "");
     } catch (e: any) {
       const error = JSON.parse(e.message) as
-        PatchV3GfwTeamsTeamIdUsersUserIdAcceptError | PatchV3GfwTeamsTeamIdUsersUserIdDeclineError;
+        PatchV3GfwTeamsTeamIdUsersUserIdAcceptError
+        | PatchV3GfwTeamsTeamIdUsersUserIdDeclineError;
       toastr.error(
         intl.formatMessage({ id: config.errorMessage }),
         typeof error.payload === "string" ? "" : error.payload.message!
