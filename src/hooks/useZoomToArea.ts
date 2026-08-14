@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { LngLatBoundsLike, useMap } from "react-map-gl";
+import { LngLatBoundsLike, useMap } from "react-map-gl/mapbox";
 import * as turf from "@turf/turf";
 import { AllGeoJSON } from "@turf/turf";
 

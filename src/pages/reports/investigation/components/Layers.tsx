@@ -1,7 +1,7 @@
 import OptionalWrapper from "components/extensive/OptionalWrapper";
 import { FC } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { Layer, Source } from "react-map-gl";
+import { Layer, Source } from "react-map-gl/mapbox";
 import { useRouteMatch } from "react-router-dom";
 import { TParams } from "../types";
 import { allDeforestationAlerts, EAlertTypes } from "constants/alerts";

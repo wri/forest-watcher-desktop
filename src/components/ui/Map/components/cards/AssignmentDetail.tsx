@@ -40,11 +40,11 @@ const AssignmentDetailCard: FC<IProps> = props => {
     const groupedTeams: GroupedTeams = {};
     const assignmentMonitors = selectedAssignment?.attributes?.monitors || [];
 
-    teamData?.forEach(team => {
+    teamData?.forEach((team: any) => {
       const monitors = team.attributes?.members;
 
-      monitors?.forEach(monitor => {
-        const found = assignmentMonitors.find(assignmentMonitor => monitor.userId === assignmentMonitor);
+      monitors?.forEach((monitor: TeamMemberModel) => {
+        const found = assignmentMonitors.find((assignmentMonitor: string) => monitor.userId === assignmentMonitor);
         if (found && team.id) {
           groupedTeams[team.id] = groupedTeams[team.id] ? [...groupedTeams[team.id], monitor] : [monitor];
         }
@@ -53,7 +53,7 @@ const AssignmentDetailCard: FC<IProps> = props => {
 
     const monitors = Object.entries(groupedTeams)
       .map(([teamId, members]) => {
-        const team = teamData?.find(team => team.id === teamId);
+        const team = teamData?.find((team: any) => team.id === teamId);
         if (!team) {
           return "";
         }

@@ -19,7 +19,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useMemo, useRef, useState } fr
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import useGetUserTeamsWithActiveMembers from "hooks/querys/teams/useGetUserTeamsWithActiveMembers";
 import { FormattedMessage, useIntl } from "react-intl";
-import { LngLat, useMap } from "react-map-gl";
+import { LngLat, useMap } from "react-map-gl/mapbox";
 import { toastr } from "react-redux-toastr";
 import { useHistory, useParams } from "react-router-dom";
 import yup from "configureYup";
@@ -105,7 +105,7 @@ const AssignmentForm: FC<IProps> = props => {
 
   // Scroll Position Values
   const controlPanelPreviousScrollTopRef = useRef<number>(0);
-  const controlPanelContentRef = useRef<HTMLDivElement>();
+  const controlPanelContentRef = useRef<HTMLDivElement>(undefined);
 
   // FormData
   const parentFormContext = useFormContext();
@@ -119,7 +119,7 @@ const AssignmentForm: FC<IProps> = props => {
   } = useForm<TAssignmentFormFields>({
     mode: "onChange",
     defaultValues: getFormValueForAssignmentFromResponse(assignmentToEdit),
-    resolver: yupResolver(assignmentFormSchema)
+    resolver: yupResolver(assignmentFormSchema) as any
   });
 
   const monitorsWatcher = useWatch({ control, name: "monitors" });

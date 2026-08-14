@@ -19,7 +19,7 @@ Standard.args = {
     { name: "common.edit", onClick: () => {} },
     { name: "common.delete", onClick: () => {} }
   ],
-  offsetY: 8
+  shift: 8
 };
 
 export const MenuItemsAsLinks = Template.bind({});
@@ -28,5 +28,5 @@ MenuItemsAsLinks.args = {
     { name: "common.edit", href: "/foo" },
     { name: "common.delete", href: "/bar" }
   ],
-  offsetY: 8
+  shift: 8
 };

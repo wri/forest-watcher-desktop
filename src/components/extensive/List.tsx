@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ReactElement } from "react";
 
 type ListProps<T> = {
   items: T[];
-  render: (item: T, index: number) => JSX.Element | null;
+  render: (item: T, index: number) => ReactElement | null;
   loading?: boolean;
   className?: string;
   itemClassName?: string;

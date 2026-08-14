@@ -9,7 +9,7 @@ const useTemplateData = (index: number) => {
   const formHook = useFormContext<FormFields>();
   const { getValues } = formHook;
   const questions = getValues("questions");
-  const question = getValues(`questions.${index}`);
+  const question = (getValues(`questions.${index}`) ?? {}) as Partial<QuestionModel>;
   // @ts-ignore conditions does exist
   const conditions = getValues(`questions.${index}.conditions`);
   // @ts-ignore conditions does exist

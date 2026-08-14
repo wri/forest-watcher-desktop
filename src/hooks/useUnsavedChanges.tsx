@@ -6,7 +6,7 @@ const useUnsavedChanges = (blockingCondition: boolean) => {
   const history = useHistory();
   const [isBlockingNavigation, setIsBlockingNavigation] = useState(false);
   const [attemptedLocation, setAttemptedLocation] = useState<any>(null);
-  const unblockRef = useRef<any>();
+  const unblockRef = useRef<any>(undefined);
 
   useEffect(() => {
     // @ts-ignore typing issue with history.block

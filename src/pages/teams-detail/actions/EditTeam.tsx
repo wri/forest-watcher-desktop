@@ -65,7 +65,7 @@ const EditTeamModal: FC<IProps> = props => {
       onSave={onSave}
       modalTitle="teams.details.edit"
       submitBtnName="teams.edit.save"
-      useFormProps={{ resolver: yupResolver(editTeamSchema), defaultValues: { name: currentName } }}
+      useFormProps={{ resolver: yupResolver(editTeamSchema) as any, defaultValues: { name: currentName } }}
       inputs={[
         {
           id: "team-name-input",

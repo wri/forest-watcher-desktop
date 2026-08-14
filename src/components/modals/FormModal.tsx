@@ -5,7 +5,15 @@ import { Props as ISelectProps } from "components/ui/Form/Select";
 import { IProps as IToggleGroupProps } from "components/ui/Form/ToggleGroup";
 import { Props as IToggleProps } from "components/ui/Form/Toggle";
 import { Props as IRadioChipGroupProps } from "components/ui/Form/RadioChipGroup";
-import { useForm, SubmitHandler, RegisterOptions, UnpackNestedValue, FieldPath, UseFormReturn } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  RegisterOptions,
+  UnpackNestedValue,
+  FieldPath,
+  UseFormReturn,
+  FieldValues
+} from "react-hook-form";
 import UnsavedChanges from "components/modals/UnsavedChanges";
 import Loader from "components/ui/Loader";
 import { UseFormProps } from "react-hook-form/dist/types";
@@ -13,7 +21,7 @@ import { FormattedMessage } from "react-intl";
 import FormModalInput from "./FormModalInput";
 import { usePrevious } from "hooks/usePrevious";
 
-export interface IInputBase<T> {
+export interface IInputBase<T extends FieldValues> {
   formatErrors?: (error: any) => any; // ToDo
   registerProps: {
     name: FieldPath<T>;
@@ -21,14 +29,17 @@ export interface IInputBase<T> {
   };
 }
 
-export type TInput<T> = Omit<IInputProps, "registered"> & IInputBase<T>;
-export type TSelect<T> = Omit<Omit<ISelectProps, "formHook">, "registered"> & IInputBase<T>;
-export type TToggleGroup<T> = Omit<Omit<IToggleGroupProps, "formHook">, "registered"> & IInputBase<T>;
-export type TToggle<T> = Omit<Omit<IToggleProps, "formHook">, "registered"> & IInputBase<T>;
-export type TRadioGroup<T> = Omit<Omit<IRadioChipGroupProps, "formHook">, "registered"> & IInputBase<T>;
-export type TAvailableTypes<T> = TInput<T> | TSelect<T> | TToggleGroup<T> | TToggle<T> | TRadioGroup<T>;
+export type TInput<T extends FieldValues> = Omit<IInputProps, "registered"> & IInputBase<T>;
+export type TSelect<T extends FieldValues> = Omit<Omit<ISelectProps, "formHook">, "registered"> & IInputBase<T>;
+export type TToggleGroup<T extends FieldValues> = Omit<Omit<IToggleGroupProps, "formHook">, "registered"> &
+  IInputBase<T>;
+export type TToggle<T extends FieldValues> = Omit<Omit<IToggleProps, "formHook">, "registered"> & IInputBase<T>;
+export type TRadioGroup<T extends FieldValues> = Omit<Omit<IRadioChipGroupProps, "formHook">, "registered"> &
+  IInputBase<T>;
+export type TAvailableTypes<T extends FieldValues> =
+  TInput<T> | TSelect<T> | TToggleGroup<T> | TToggle<T> | TRadioGroup<T>;
 
-export interface IProps<T> extends PropsWithChildren {
+export interface IProps<T extends FieldValues> extends PropsWithChildren {
   isOpen: boolean;
   modalRef?: MutableRefObject<HTMLDivElement | null>;
   dismissible?: boolean;
@@ -76,7 +87,7 @@ export interface IProps<T> extends PropsWithChildren {
  *     ]}
  *   />
  */
-const FormModal = <T,>(props: IProps<T>) => {
+const FormModal = <T extends FieldValues>(props: IProps<T>) => {
   const {
     isOpen = false,
     modalRef,

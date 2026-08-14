@@ -71,7 +71,7 @@ const CreateTeamModal: FC<IProps> = props => {
       onSave={onSave}
       modalTitle="teams.create"
       submitBtnName="teams.create.save"
-      useFormProps={{ resolver: yupResolver(createTeamSchema), defaultValues: { name: "" } }}
+      useFormProps={{ resolver: yupResolver(createTeamSchema) as any, defaultValues: { name: "" } }}
       inputs={[
         {
           id: "team-name-input",

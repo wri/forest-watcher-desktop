@@ -29,7 +29,7 @@ const Carousel = ({ slides, downloadable, sharable, onVisibilityChange }: Carous
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [imageToView, setImageToView] = useState<string>("");
   const intl = useIntl();
-  const [mainViewportRef, carousel] = useEmblaCarousel({ skipSnaps: false, draggable: false });
+  const [mainViewportRef, carousel] = useEmblaCarousel({ skipSnaps: false, watchDrag: false });
   const [thumbViewportRef, carouselThumbs] = useEmblaCarousel({
     containScroll: "keepSnaps",
     dragFree: true
@@ -54,9 +54,7 @@ const Carousel = ({ slides, downloadable, sharable, onVisibilityChange }: Carous
       if (!carousel || !carouselThumbs) {
         return;
       }
-      if (carouselThumbs.clickAllowed()) {
-        carousel.scrollTo(index);
-      }
+      carousel.scrollTo(index);
     },
     [carousel, carouselThumbs]
   );

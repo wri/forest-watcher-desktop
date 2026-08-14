@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { Layer, Source, useMap } from "react-map-gl";
+import { Layer, Source, useMap } from "react-map-gl/mapbox";
 import { pointStyle as defaultPointStyle } from "./styles";
 import * as turf from "@turf/turf";
 import { Marker } from "mapbox-gl";
@@ -185,11 +185,7 @@ const SquareClusterMarkers: FC<IProps> = props => {
     const handlePreClick = () => {
       let timeId: any;
 
-      const handleSourceMouseClick = (
-        e: mapboxgl.MapMouseEvent & {
-          features?: mapboxgl.MapboxGeoJSONFeature[] | undefined;
-        } & mapboxgl.EventData
-      ) => {
+      const handleSourceMouseClick = (e: any) => {
         // Cancel the de-select timeout
         clearTimeout(timeId);
         timeId = undefined;

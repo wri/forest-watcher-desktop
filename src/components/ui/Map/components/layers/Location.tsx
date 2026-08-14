@@ -1,7 +1,7 @@
 import { pointStyle } from "components/ui/Map/components/layers/styles";
 import { MapImages } from "helpers/map";
 import { FC, useEffect, useState } from "react";
-import { Layer, LngLat, Source, useMap } from "react-map-gl";
+import { Layer, LngLat, Source, useMap } from "react-map-gl/mapbox";
 import * as turf from "@turf/turf";
 
 export interface IProps {
@@ -21,11 +21,7 @@ const SingleLocationLayer: FC<IProps> = props => {
   }, [onSelectedLocationChange, selectedLocationPoint]);
 
   useEffect(() => {
-    const handlePreClick = (
-      e: mapboxgl.MapMouseEvent & {
-        features?: mapboxgl.MapboxGeoJSONFeature[] | undefined;
-      } & mapboxgl.EventData
-    ) => {
+    const handlePreClick = (e: any) => {
       const withInFeatures = map?.queryRenderedFeatures(e.point, {
         layers: [withinLayerId]
       });
@@ -33,10 +29,10 @@ const SingleLocationLayer: FC<IProps> = props => {
       // Find all Layers the mouse clicked on
       const allMouseFeatures = map?.queryRenderedFeatures(e.point);
 
-      const hasClickedOnPoint = Boolean(allMouseFeatures?.find(item => item.layer.id === id));
+      const hasClickedOnPoint = Boolean(allMouseFeatures?.find(item => item.layer?.id === id));
 
       const hasSelectedAnAlert = Boolean(
-        allMouseFeatures?.find(item => item.source === "alerts" || item.layer.id === "clusters-count-alerts")
+        allMouseFeatures?.find(item => item.source === "alerts" || item.layer?.id === "clusters-count-alerts")
       );
 
       if (hasClickedOnPoint || hasSelectedAnAlert) {

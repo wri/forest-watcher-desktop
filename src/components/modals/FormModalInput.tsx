@@ -4,14 +4,15 @@ import Select from "components/ui/Form/Select";
 import Toggle from "components/ui/Form/Toggle";
 import ToggleGroup from "components/ui/Form/ToggleGroup";
 import { UseFormReturn } from "react-hook-form/dist/types";
+import { FieldValues } from "react-hook-form";
 import { TAvailableTypes, TInput, TRadioGroup, TSelect, TToggleGroup, TToggle } from "./FormModal";
 
-export interface IProps<T> {
+export interface IProps<T extends FieldValues> {
   input: TAvailableTypes<T>;
   formhook: UseFormReturn<T, any>;
 }
 
-const FormModalInput = <T,>(props: IProps<T>) => {
+const FormModalInput = <T extends FieldValues>(props: IProps<T>) => {
   const { input, formhook } = props;
 
   const {

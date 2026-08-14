@@ -111,7 +111,7 @@ const AddTeamMemberModal: FC<IProps> = props => {
           formatErrors: errors => errors.email
         }
       ]}
-      useFormProps={{ resolver: yupResolver(addTeamMemberSchema) }}
+      useFormProps={{ resolver: yupResolver(addTeamMemberSchema) as any }}
     />
   );
 };

@@ -1,7 +1,7 @@
 import { CSSProperties, FC, HTMLAttributes, useEffect, useState } from "react";
 import classnames from "classnames";
-import ReactMap, { MapboxEvent } from "react-map-gl";
-import { Map as MapInstance } from "mapbox-gl";
+import ReactMap from "react-map-gl/mapbox";
+import { Map as MapInstance, MapboxEvent } from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import MapControls from "./components/ControlsContainer";
 import MapEditControls from "./components/EditControls";

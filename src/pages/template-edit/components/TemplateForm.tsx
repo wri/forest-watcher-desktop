@@ -101,7 +101,7 @@ const templateSchema = yup
 
 const TemplateForm: FC<IParams> = ({ template, backLink = "", onSubmit }) => {
   const intl = useIntl();
-  const formHook = useForm<FormFields>({ defaultValues: template, resolver: yupResolver(templateSchema) });
+  const formHook = useForm<FormFields>({ defaultValues: template, resolver: yupResolver(templateSchema) as any });
   const { httpAuthHeader } = useAccessToken();
   const { data: areasData } = useGetV3GfwAreasUser({ headers: httpAuthHeader });
   const [previousDefaultLang, setPreviousDefaultLang] = useState(template?.defaultLanguage || "en");

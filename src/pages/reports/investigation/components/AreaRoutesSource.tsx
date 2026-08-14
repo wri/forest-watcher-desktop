@@ -4,9 +4,9 @@ import { useGetV3GfwRoutesTeams, useGetV3GfwRoutesUser } from "generated/core/co
 import { RouteModel } from "generated/core/coreSchemas";
 import { fireGAEvent } from "helpers/analytics";
 import { useAccessToken } from "hooks/useAccessToken";
-import { EventData, MapMouseEvent } from "mapbox-gl";
+import { MapMouseEvent } from "mapbox-gl";
 import { FC, useContext, useEffect, useMemo } from "react";
-import { Layer, Source, useMap } from "react-map-gl";
+import { Layer, Source, useMap } from "react-map-gl/mapbox";
 import { MonitoringActions, MonitoringLabel } from "types/analytics";
 import MapContext from "../MapContext";
 import RouteCard from "./RouteCard";
@@ -56,10 +56,7 @@ const AreaRoutesSource: FC<IProps> = props => {
       return geojson;
     });
 
-    const filtered = mapped.filter(route => route !== null) as turf.helpers.Feature<
-      turf.helpers.LineString,
-      turf.helpers.Properties
-    >[];
+    const filtered = mapped.filter(route => route !== null) as any[];
 
     return filtered;
   }, [routes]);
@@ -96,16 +93,13 @@ const AreaRoutesSource: FC<IProps> = props => {
       return formattedPoints;
     });
 
-    const filtered = mapped.filter(route => route !== null) as turf.helpers.FeatureCollection<
-      turf.helpers.Point,
-      turf.helpers.Properties
-    >[];
+    const filtered = mapped.filter(route => route !== null) as any[];
 
     return filtered;
   }, [routes, selectedRoute?.id]);
 
   useEffect(() => {
-    const handleRouteClick = (e: MapMouseEvent & EventData) => {
+    const handleRouteClick = (e: any) => {
       e.preventDefault();
       const route = JSON.parse(e.features[0].properties.route);
 

@@ -4,7 +4,7 @@ import SquareClusterMarkers, { EPointDataTypes } from "components/ui/Map/compone
 import { AssignmentResponse } from "generated/core/coreResponses";
 import { goToGeojson } from "helpers/map";
 import { FC, useEffect, useMemo } from "react";
-import { LngLatBoundsLike, useMap } from "react-map-gl";
+import { LngLatBoundsLike, useMap } from "react-map-gl/mapbox";
 import { AssignmentLayerType, IPoint } from "types/map";
 import { pointStyle } from "components/ui/Map/components/layers/styles";
 import * as turf from "@turf/turf";

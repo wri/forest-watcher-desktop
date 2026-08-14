@@ -61,8 +61,8 @@ const Select = (props: Props) => {
     watched !== undefined && watched !== null
       ? watched
       : Array.isArray(selectProps.defaultValue)
-      ? selectProps.defaultValue.map(item => item.value)
-      : selectProps.defaultValue?.value;
+        ? selectProps.defaultValue.map(item => item.value)
+        : selectProps.defaultValue?.value;
 
   const selectedItems = getSelectedItems(isGenericMultiple, value, options);
 

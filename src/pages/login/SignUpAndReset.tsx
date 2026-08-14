@@ -59,7 +59,7 @@ const SignUpAndReset: FC<IProps> = ({ isResetPassword = false }) => {
     handleSubmit,
     reset,
     formState: { isDirty, errors }
-  } = useForm<TSignUpAndResetForm>({ resolver: yupResolver(signUpAndResetSchema) });
+  } = useForm<TSignUpAndResetForm>({ resolver: yupResolver(signUpAndResetSchema) as any });
   const intl = useIntl();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);

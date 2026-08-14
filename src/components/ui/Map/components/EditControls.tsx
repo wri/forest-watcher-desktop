@@ -64,7 +64,7 @@ const MapEditControls: FC<IProps> = props => {
       setCanDelete(false);
     });
 
-    map.on("draw.selectionchange", function (e) {
+    map.on("draw.selectionchange", function (e: any) {
       const isSelected = e.features.length > 0;
       setCanEdit(!isSelected);
       setCanDraw(!isSelected);

@@ -235,7 +235,7 @@ const DataTable = <T extends { [key: string]: string | number | any[] }>(props: 
                     <ContextMenu
                       toggleClassName="c-data-table__action-toggle"
                       align="end"
-                      offsetY={8}
+                      shift={8}
                       menuItems={rowActions
                         .filter(rowAction => (rowAction.shouldShow ? rowAction.shouldShow(row, rowAction.value) : true))
                         .map(({ onClick = () => {}, href, value, shouldShow, ...menuItem }) => ({

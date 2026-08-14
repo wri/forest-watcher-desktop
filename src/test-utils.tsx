@@ -1,5 +1,5 @@
 // test-utils.js
-import { FC } from "react";
+import { FC, type ReactElement } from "react";
 import { render as rtlRender } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -12,7 +12,7 @@ interface WrapperProps {
   children?: React.ReactNode;
 }
 
-function render(ui: JSX.Element, { storeConfig = store, ...renderOptions } = {}) {
+function render(ui: ReactElement, { storeConfig = store, ...renderOptions } = {}) {
   const Wrapper: FC<WrapperProps> = ({ children }) => {
     return (
       <IntlProvider

@@ -41,7 +41,9 @@ const MapComparison = (props: IProps) => {
 
       // Set the original position so both maps match
       const bounds = beforeMapRef.getBounds();
-      afterMapRef.fitBounds(bounds, { animate: false });
+      if (bounds) {
+        afterMapRef.fitBounds(bounds, { animate: false });
+      }
 
       setIsReady(true);
     }

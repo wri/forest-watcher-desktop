@@ -21,7 +21,7 @@ import { Link, Route, Switch, useHistory, useParams, useRouteMatch } from "react
 import useUnsavedChanges from "hooks/useUnsavedChanges";
 import Modal from "components/ui/Modal/Modal";
 import DeleteArea from "./actions/DeleteArea";
-import { Source, Layer } from "react-map-gl";
+import { Source, Layer } from "react-map-gl/mapbox";
 import { labelStyle } from "components/ui/Map/components/layers/styles";
 import * as turf from "@turf/turf";
 import { AllGeoJSON } from "@turf/turf";
