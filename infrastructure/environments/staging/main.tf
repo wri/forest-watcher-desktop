@@ -34,12 +34,6 @@ provider "aws" {
   }
 }
 
-data "aws_acm_certificate" "domain" {
-  domain      = local.domain
-  statuses    = ["ISSUED"]
-  most_recent = true
-}
-
 data "aws_route53_zone" "domain_fw" {
   name = local.domain
 }
@@ -51,7 +45,7 @@ module "web" {
   environment             = local.environment
   app_urls                = [local.domain]
   repo_name               = "forest-watcher/forest-watcher-desktop"
-  aws_acm_certificate_arn = data.aws_acm_certificate.domain.arn
+  aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/7db7a16d-6309-4f65-b928-bda7e55a3b39"
 }
 
 resource "aws_route53_record" "main" {
