@@ -18,14 +18,13 @@ locals {
   project_name = "${local.client}-forest-watcher"
   environment  = "staging"
   name         = "${local.project_name}-${local.environment}"
-  domain       = "${local.environment}.gfw-web.3sidedcube.com"
+  domain       = "staging-fw.globalforestwatch.org"
   tags = {
     client      = local.client
     product     = local.project_name
     Environment = local.environment
   }
 }
-
 
 provider "aws" {
   region = "us-east-1"
@@ -35,11 +34,9 @@ provider "aws" {
   }
 }
 
-module "domain" {
-  source   = "git@github.com:3sidedcube/terraform-aws-domain.git?ref=v0.3.0"
-  hostname = local.domain
+data "aws_route53_zone" "domain_fw" {
+  name = local.domain
 }
-
 
 module "web" {
   source = "../../modules/web"
@@ -48,11 +45,11 @@ module "web" {
   environment             = local.environment
   app_urls                = [local.domain]
   repo_name               = "forest-watcher/forest-watcher-desktop"
-  aws_acm_certificate_arn = module.domain.acm_certificate_arn
+  aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/7db7a16d-6309-4f65-b928-bda7e55a3b39"
 }
 
 resource "aws_route53_record" "main" {
-  zone_id = module.domain.hosted_zone_id
+  zone_id = data.aws_route53_zone.domain_fw.zone_id
   name    = local.domain
   type    = "A"
 
