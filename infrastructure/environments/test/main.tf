@@ -49,6 +49,8 @@ module "web" {
   app_urls                = [local.domain]
   zone_id                 = module.domain.hosted_zone_id
   repo_name               = "wri/forest-watcher-desktop"
+  repo_owner_id           = "4615146"
+  repo_id                 = "1317545921"
   aws_acm_certificate_arn = module.domain.acm_certificate_arn
 }
 

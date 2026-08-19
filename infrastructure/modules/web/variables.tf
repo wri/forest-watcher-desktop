@@ -14,6 +14,14 @@ variable "repo_name" {
   type = string
 }
 
+variable "repo_owner_id" {
+  type = string
+}
+
+variable "repo_id" {
+  type = string
+}
+
 
 variable "aws_acm_certificate_arn" {
   type = string
