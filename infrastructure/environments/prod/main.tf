@@ -40,6 +40,7 @@ module "web" {
   project_name            = local.project_name
   environment             = local.environment
   app_urls                = local.domains
+  repo_name               = "wri/forest-watcher-desktop"
   repo_owner_id           = "4615146"
   repo_id                 = "1317545921"
   github_environment      = "production"
