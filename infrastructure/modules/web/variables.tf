@@ -10,6 +10,15 @@ variable "app_urls" {
   type = list(string)
 }
 
+variable "repo_name" {
+  type = string
+
+  validation {
+    condition     = can(regex("^[^/]+/[^/]+$", var.repo_name))
+    error_message = "repo_name must be in the form owner/repository."
+  }
+}
+
 variable "repo_owner_id" {
   type = string
 }
