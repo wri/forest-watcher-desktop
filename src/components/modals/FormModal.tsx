@@ -37,7 +37,11 @@ export type TToggle<T extends FieldValues> = Omit<Omit<IToggleProps, "formHook">
 export type TRadioGroup<T extends FieldValues> = Omit<Omit<IRadioChipGroupProps, "formHook">, "registered"> &
   IInputBase<T>;
 export type TAvailableTypes<T extends FieldValues> =
-  TInput<T> | TSelect<T> | TToggleGroup<T> | TToggle<T> | TRadioGroup<T>;
+  | TInput<T>
+  | TSelect<T>
+  | TToggleGroup<T>
+  | TToggle<T>
+  | TRadioGroup<T>;
 
 export interface IProps<T extends FieldValues> extends PropsWithChildren {
   isOpen: boolean;
