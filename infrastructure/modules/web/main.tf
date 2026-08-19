@@ -88,7 +88,7 @@ data "aws_iam_policy_document" "ci_assume" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:environment"
-      values   = [var.environment]
+      values   = [var.github_environment]
     }
   }
 }
