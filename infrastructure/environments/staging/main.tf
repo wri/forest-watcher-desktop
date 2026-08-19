@@ -44,7 +44,9 @@ module "web" {
   project_name            = local.project_name
   environment             = local.environment
   app_urls                = [local.domain]
-  repo_name               = "wri/forest-watcher-desktop"
+  repo_owner_id           = "4615146"
+  repo_id                 = "1317545921"
+  github_environment      = local.environment
   aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/7db7a16d-6309-4f65-b928-bda7e55a3b39"
 }
 

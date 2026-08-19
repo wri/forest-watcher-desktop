@@ -10,7 +10,15 @@ variable "app_urls" {
   type = list(string)
 }
 
-variable "repo_name" {
+variable "repo_owner_id" {
+  type = string
+}
+
+variable "repo_id" {
+  type = string
+}
+
+variable "github_environment" {
   type = string
 }
 
