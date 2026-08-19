@@ -77,18 +77,8 @@ data "aws_iam_policy_document" "ci_assume" {
     }
     condition {
       test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:repository_owner_id"
-      values   = [var.repo_owner_id]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:repository_id"
-      values   = [var.repo_id]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:environment"
-      values   = [var.github_environment]
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = [format("repo:%s@%s/%s@%s:environment:%s", split("/", var.repo_name)[0], var.repo_owner_id, split("/", var.repo_name)[1], var.repo_id, var.github_environment)]
     }
   }
 }
