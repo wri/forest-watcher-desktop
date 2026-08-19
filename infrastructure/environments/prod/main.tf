@@ -18,7 +18,7 @@ locals {
   project_name = "${local.client}-forest-watcher"
   environment  = "prod"
   name         = "${local.project_name}-${local.environment}"
-  domains = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
+  domains      = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
   tags = {
     client      = local.client
     product     = local.project_name
@@ -40,7 +40,7 @@ module "web" {
   project_name            = local.project_name
   environment             = local.environment
   app_urls                = local.domains
-  repo_name               = "forest-watcher/forest-watcher-desktop"
+  repo_name               = "wri/forest-watcher-desktop"
   aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/aa62ffe8-30c3-47d4-9aa5-53079c1ee75a"
 }
 

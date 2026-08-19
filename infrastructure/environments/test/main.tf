@@ -48,7 +48,7 @@ module "web" {
   environment             = local.environment
   app_urls                = [local.domain]
   zone_id                 = module.domain.hosted_zone_id
-  repo_name               = "forest-watcher/forest-watcher-desktop"
+  repo_name               = "wri/forest-watcher-desktop"
   aws_acm_certificate_arn = module.domain.acm_certificate_arn
 }
 
