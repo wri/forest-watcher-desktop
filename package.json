@@ -120,8 +120,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:ci": "CI=true react-scripts build",
     "deploy": "npm run build&&gh-pages -d build",
     "test": "react-scripts test --env=jsdom --watchAll=false",
+    "test:ci": "CI=true react-scripts test --env=jsdom --watchAll=false",
+    "ci:verify": "npm run test:ci && npm run build:ci",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src --fix",
     "transifex:push": "tx push",
     "transifex:pull": "tx pull -f && npm run transifex:prettier",
@@ -141,6 +144,9 @@
     "generate:clayers": "npx openapi-codegen gen clayers",
     "generate:users": "npx openapi-codegen gen users",
     "generate:new": "npx openapi-codegen init"
+  },
+  "engines": {
+    "node": "24.x"
   },
   "prettier": "@3sidedcube/prettier-config",
   "eslintConfig": {

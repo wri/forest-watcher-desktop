@@ -2,6 +2,19 @@
 
 Web app for managing your [forest watcher](http://forestwatcher.globalforestwatch.org) data.
 
+## Local CI parity
+
+GitHub Actions runs this project on Node 24 using `npm ci`, then `npm run test` and `npm run build`.
+To match CI locally:
+
+```bash
+nvm use
+npm ci
+npm run ci:verify
+```
+
+If you do not use `nvm`, install and run with Node 24.x.
+
 # API Typescript Codegen
 
 We use `@openapi-codegen/cli` and `@openapi-codegen/typescript` to fetch api schemas from api services (`yaml` hosted files).
