@@ -61,7 +61,19 @@ const Help = () => {
             id="help.form.subtitle"
             values={{
               link: chunks => (
-                <a href={zendeskFormUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                <a
+                  href={zendeskFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                  onClick={() =>
+                    fireGAEvent({
+                      category: "Help",
+                      action: "contact_form",
+                      label: "visited_Zendesk_form"
+                    })
+                  }
+                >
                   {chunks}
                 </a>
               )
