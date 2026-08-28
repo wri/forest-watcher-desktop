@@ -111,6 +111,7 @@ export default defineConfig({
     outputDir: "src/generated/users",
     to: async context => {
       const filenamePrefix = "users";
+      delete context.openAPIDocument.paths?.["/contact"];
       const { schemasFiles } = await generateSchemaTypes(context, {
         filenamePrefix
       });
