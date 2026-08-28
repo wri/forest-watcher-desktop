@@ -113,52 +113,6 @@ export const useGetDeleteUserId = <TData = GetDeleteUserIdResponse>(
   );
 };
 
-export type PostContactError = Fetcher.ErrorWrapper<{
-  status: 401;
-  payload: Responses.Error;
-}>;
-
-export type PostContactResponse = {
-  data?: string;
-};
-
-export type PostContactRequestBody = {
-  platform?: string;
-  queryRelate?: string;
-  query?: string;
-};
-
-export type PostContactVariables = {
-  body?: PostContactRequestBody;
-} & UsersContext["fetcherOptions"];
-
-/**
- * Sends an email to a prearranged email address containing help form info
- */
-export const fetchPostContact = (variables: PostContactVariables, signal?: AbortSignal) =>
-  usersFetch<PostContactResponse, PostContactError, PostContactRequestBody, {}, {}, {}>({
-    url: "/contact",
-    method: "post",
-    ...variables,
-    signal
-  });
-
-/**
- * Sends an email to a prearranged email address containing help form info
- */
-export const usePostContact = (
-  options?: Omit<
-    reactQuery.UseMutationOptions<PostContactResponse, PostContactError, PostContactVariables>,
-    "mutationFn"
-  >
-) => {
-  const { fetcherOptions } = useUsersContext();
-  return reactQuery.useMutation<PostContactResponse, PostContactError, PostContactVariables>(
-    (variables: PostContactVariables) => fetchPostContact({ ...fetcherOptions, ...variables }),
-    options
-  );
-};
-
 export type QueryOperation = {
   path: "/delete/:userId";
   operationId: "getDeleteUserId";
