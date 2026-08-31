@@ -794,8 +794,7 @@
   "help.helpCenter.cta.subtitle": "El Centro de Ayuda ofrece recursos para guiarte a través de los datos de seguimiento forestal, la tecnología y las herramientas que ofrece Global Nature Watch.",
   "help.helpCenter.cta.link": "Visita el centro de ayuda de GNW",
   "help.form.title": "Contacto",
-  "help.form.subtitle": "¿Preguntas, comentarios, solicitudes o sugerencias? ¡Queremos saber de ti! Ponte en contacto con nosotros rellenando el <link>formulario</link>.",
-
+  "help.form.subtitle": "¿No encontró lo que buscaba en nuestro centro de ayuda? Deje una pregunta, un comentario, una solicitud o una sugerencia completando el <link>formulario</link>.",
   "what.new.1.heading": "Novedades de esta versión",
   "what.new.1.title": "Exportar y compartir sus datos",
   "what.new.1.text": "Exporte sus datos como Shapefile, GeoJSON, CSV o PDF. También puede compartirlos por correo electrónico o mediante un enlace. Excluya la información confidencial al exportar y compartir datos.",
