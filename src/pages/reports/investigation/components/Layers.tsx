@@ -18,13 +18,10 @@ interface IProps {
 }
 
 // get the layer name from a tiles url, e.g. "https://.../layerName/latest/default/{z}/{x}/{y}.pbf" => "layerName"
-function getLayerNameFromTilesUrl(raw: string): string | null {
-  // Handles accidental wrapping quotes like "'https://...'"
-  const cleaned = raw.trim().replace(/^['"]+|['"]+$/g, "");
-
+function getLayerNameFromTilesUrl(tileUrl: string): string | null {
   let url: URL;
   try {
-    url = new URL(cleaned);
+    url = new URL(tileUrl);
   } catch {
     return null;
   }
@@ -42,14 +39,19 @@ const Layers: FC<IProps> = ({ contextualLayerUrls, lockAlertSelections, parentCo
   return (
     <OptionalWrapper data={!!investigationMatch}>
       {contextualLayerUrls.map(url => {
-        const isVector = url.endsWith(".pbf");
-        const sourceLayerFromUrl = getLayerNameFromTilesUrl(url);
-        return isVector && sourceLayerFromUrl ? (
-          <Source id={url} type="vector" tiles={[url]} key={url}>
+        const cleanedUrl = url.trim().replace(/^['"]+|['"]+$/g, "");
+        const isVector = cleanedUrl.endsWith(".pbf");
+        const sourceLayerFromUrl = isVector ? getLayerNameFromTilesUrl(cleanedUrl) : null;
+
+        // skip vector tiles where the source layer cannot be determined
+        if (isVector && !sourceLayerFromUrl) return null;
+
+        return isVector ? (
+          <Source id={cleanedUrl} type="vector" tiles={[cleanedUrl]} key={cleanedUrl}>
             <Layer
-              id={`${url}-layer`}
+              id={`${cleanedUrl}-layer`}
               type="fill"
-              source-layer={sourceLayerFromUrl}
+              source-layer={sourceLayerFromUrl!}
               paint={{
                 "fill-color": "#3FBF7F",
                 "fill-opacity": 0.5
@@ -57,8 +59,8 @@ const Layers: FC<IProps> = ({ contextualLayerUrls, lockAlertSelections, parentCo
             />
           </Source>
         ) : (
-          <Source id={url} type="raster" tiles={[url]} key={url}>
-            <Layer id={`${url}-layer`} type="raster" />
+          <Source id={cleanedUrl} type="raster" tiles={[cleanedUrl]} key={cleanedUrl}>
+            <Layer id={`${cleanedUrl}-layer`} type="raster" />
           </Source>
         );
       })}
