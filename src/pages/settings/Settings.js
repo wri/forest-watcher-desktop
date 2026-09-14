@@ -29,7 +29,6 @@ class Settings extends Component {
   UNSAFE_componentWillMount() {
     if (this.firstLoad) {
       this.props.getTeamByUserId(this.props.userId);
-      this.props.getGFWLayers();
       this.props.getLayers();
       this.firstLoad = false;
     }

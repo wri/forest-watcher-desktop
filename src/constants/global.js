@@ -5,8 +5,6 @@ export const API_BASE_URL_V3 = process.env.REACT_APP_API_CUBE_URL_V3;
 export const ALERTS_API_URL = process.env.REACT_APP_ALERTS_API_URL;
 export const ALERTS_API_TOKEN = process.env.REACT_APP_ALERTS_API_TOKEN;
 export const API_BASE_AUTH_URL = process.env.REACT_APP_API_AUTH_URL;
-export const CARTO_URL = process.env.REACT_APP_CARTO;
-export const CARTO_TABLE = process.env.REACT_APP_CARTO_TABLE;
 export const API_CALLBACK_URL = process.env.REACT_APP_API_AUTH_CALLBACK_URL;
 export const CARTO_COUNTRIES = process.env.REACT_APP_CARTO_COUNTRIES;
 export const GFW_API_KEY = process.env.REACT_APP_GFW_API_KEY;
@@ -30,15 +28,12 @@ export const TABLE_PAGE_SIZE = 8;
 export const MANAGER = "MANAGER";
 export const MY_GFW_LINK = `${process.env.REACT_APP_FLAGSHIP_URL}/my-gfw/`;
 
-export const LAYERS_BLACKLIST = [6];
-
 const Globals = {
   API_BASE_URL_V1,
   API_CALLBACK_URL,
   DEFAULT_LANGUAGE,
   ADMIN,
   USER,
-  CARTO_URL,
   CARTO_COUNTRIES,
   MAX_NUMBER_OF_LAYERS,
   TABLE_PAGE_SIZE,

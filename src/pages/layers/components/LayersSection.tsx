@@ -11,6 +11,7 @@ export interface ILayersSection {
   subtitle: string;
   cardTitle?: string;
   cardItems: Layers["data"];
+  availableLayers?: Layers["data"];
   className?: string;
   type: "PUBLIC" | "TEAMS" | "USER";
 }
@@ -28,6 +29,7 @@ const LayersSection = ({
   className,
   refetchLayers,
   layersLoading,
+  availableLayers,
   type
 }: ILayersSectionProps) => {
   // Get teams if the type is teams
@@ -60,6 +62,7 @@ const LayersSection = ({
                 title={`${item.team.attributes?.name}:`}
                 titleIsKey={false}
                 items={item.layers}
+                availableLayers={availableLayers}
                 refetchLayers={refetchLayers}
                 layersLoading={layersLoading}
                 team={item.team}
@@ -70,6 +73,7 @@ const LayersSection = ({
           <LayersCard
             title={cardTitle || ""}
             items={cardItems}
+            availableLayers={availableLayers}
             refetchLayers={refetchLayers}
             layersLoading={layersLoading}
             type={type}
