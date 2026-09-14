@@ -94,10 +94,10 @@ const LayersCard = ({
 
   const hasAvailableLayers = uniqueAvailableLayers.length > 0;
 
-  const selectedOptions = useMemo<string[]>(
-    () => Array.from(new Set(items?.map(item => item.attributes?.url || "") ?? [])),
-    [items]
-  );
+  const selectedOptions = useMemo<string[]>(() => {
+    const selectedUrls = (items?.map(item => item.attributes?.url) ?? []).filter((url): url is string => !!url);
+    return Array.from(new Set(selectedUrls));
+  }, [items]);
 
   const onModalSave = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     try {
@@ -127,14 +127,16 @@ const LayersCard = ({
 
   const handleTeamUpdates = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     // Find Layers
-    const layers = data.layers.map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url));
+    const layers = data.layers
+      .map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url))
+      .filter((layer): layer is Layers["data"][number] => !!layer?.attributes?.url);
 
     for (let i = 0; i < layers.length; i++) {
       const item = layers[i];
       await addNewTeamLayer({
         body: {
-          name: item?.attributes?.name || "",
-          url: item?.attributes?.url || "",
+          name: item.attributes?.name || "",
+          url: item.attributes?.url || "",
           enabled: true
         },
         pathParams: { teamId: team?.id || "" },
@@ -145,14 +147,16 @@ const LayersCard = ({
 
   const handleUserUpdates = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     // Find Layers
-    const layers = data.layers.map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url));
+    const layers = data.layers
+      .map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url))
+      .filter((layer): layer is Layers["data"][number] => !!layer?.attributes?.url);
 
     for (let i = 0; i < layers.length; i++) {
       const item = layers[i];
       await addNewUserLayer({
         body: {
-          name: item?.attributes?.name || "",
-          url: item?.attributes?.url || "",
+          name: item.attributes?.name || "",
+          url: item.attributes?.url || "",
           enabled: true,
           isPublic: false
         },
