@@ -18,15 +18,14 @@ import { UnpackNestedValue } from "react-hook-form";
 import yup from "configureYup";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Option } from "types";
-import { useAppSelector } from "hooks/useRedux";
 import { toastr } from "react-redux-toastr";
-import { RootState } from "store";
 import { ILayersSection } from "./LayersSection";
 
 type LayersCardProps = {
   title: string;
   titleIsKey?: boolean;
   items: Layers["data"];
+  availableLayers?: Layers["data"];
   refetchLayers: () => void;
   layersLoading: boolean;
   team?: TeamResponse["data"];
@@ -44,10 +43,18 @@ const addLayersSchema = yup
   })
   .required();
 
-const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = true, team, type }: LayersCardProps) => {
+const LayersCard = ({
+  title,
+  items,
+  availableLayers = [],
+  refetchLayers,
+  layersLoading,
+  titleIsKey = true,
+  team,
+  type
+}: LayersCardProps) => {
   const { httpAuthHeader } = useAccessToken();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { gfw: gfwLayers } = useAppSelector((state: RootState) => state.layers);
 
   const intl = useIntl();
 
@@ -63,16 +70,34 @@ const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = t
 
   const { mutateAsync: addNewUserLayer } = usePostContextualLayer();
 
+  const uniqueAvailableLayers = useMemo(() => {
+    const seen = new Set<string>();
+    return availableLayers.filter(layer => {
+      const url = layer.attributes?.url || "";
+      if (!url || seen.has(url)) return false;
+      seen.add(url);
+      return true;
+    });
+  }, [availableLayers]);
+
   const layerOptions = useMemo<Option[] | undefined>(
     () =>
-      gfwLayers?.map((layer: any) => ({
-        label: intl.formatMessage({ id: layer.title }),
-        value: layer.tileurl
-      })),
-    [gfwLayers, intl]
+      uniqueAvailableLayers.map(layer => {
+        const name = layer.attributes?.name || "";
+        return {
+          label: intl.formatMessage({ id: name, defaultMessage: name }),
+          value: layer.attributes?.url || ""
+        };
+      }),
+    [uniqueAvailableLayers, intl]
   );
 
-  const selectedOptions = useMemo<string[]>(() => items?.map(item => item.attributes?.url || ""), [items]);
+  const hasAvailableLayers = uniqueAvailableLayers.length > 0;
+
+  const selectedOptions = useMemo<string[]>(
+    () => Array.from(new Set(items?.map(item => item.attributes?.url || "") ?? [])),
+    [items]
+  );
 
   const onModalSave = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     try {
@@ -102,12 +127,16 @@ const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = t
 
   const handleTeamUpdates = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     // Find Layers
-    const layers = data.layers.map(url => gfwLayers.find(layer => layer.tileurl === url));
+    const layers = data.layers.map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url));
 
     for (let i = 0; i < layers.length; i++) {
       const item = layers[i];
       await addNewTeamLayer({
-        body: { name: item?.title || "", url: item?.tileurl || "", enabled: true },
+        body: {
+          name: item?.attributes?.name || "",
+          url: item?.attributes?.url || "",
+          enabled: true
+        },
         pathParams: { teamId: team?.id || "" },
         headers: httpAuthHeader
       });
@@ -116,12 +145,17 @@ const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = t
 
   const handleUserUpdates = async (data: UnpackNestedValue<TAssignLayersForm>) => {
     // Find Layers
-    const layers = data.layers.map(url => gfwLayers.find(layer => layer.tileurl === url));
+    const layers = data.layers.map(url => uniqueAvailableLayers.find(layer => layer.attributes?.url === url));
 
     for (let i = 0; i < layers.length; i++) {
       const item = layers[i];
       await addNewUserLayer({
-        body: { name: item?.title || "", url: item?.tileurl || "", enabled: true, isPublic: false },
+        body: {
+          name: item?.attributes?.name || "",
+          url: item?.attributes?.url || "",
+          enabled: true,
+          isPublic: false
+        },
         headers: httpAuthHeader
       });
     }
@@ -133,7 +167,7 @@ const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = t
         <HeaderCard.Header className="flex justify-between align-middle">
           <HeaderCard.HeaderText>{titleIsKey ? <FormattedMessage id={title} /> : title}</HeaderCard.HeaderText>
           <OptionalWrapper data={(isTeam && isMyTeam) || isUser}>
-            <Button onClick={() => setIsModalOpen(true)}>
+            <Button onClick={() => setIsModalOpen(true)} disabled={!hasAvailableLayers}>
               <FormattedMessage id="common.edit" />
             </Button>
           </OptionalWrapper>
@@ -151,7 +185,10 @@ const LayersCard = ({ title, items, refetchLayers, layersLoading, titleIsKey = t
               <List
                 items={items}
                 itemClassName="text-neutral-700 uppercase text-sm font-[500] mb-7"
-                render={(item, index) => <FormattedMessage id={`${item.attributes?.name}`} />}
+                render={item => {
+                  const name = item.attributes?.name || "layers.none";
+                  return <>{intl.formatMessage({ id: name, defaultMessage: name })}</>;
+                }}
               />
             </OptionalWrapper>
           </LoadingWrapper>
