@@ -7,8 +7,8 @@ const mapCountriesToOptions = countries => {
   countries.forEach(country => {
     if (JSON.parse(country.bbox)) {
       countriesOptions.push({
-        label: country.name_engli,
-        value: country.iso
+        label: country.name_0,
+        value: country.gid_0
       });
     }
   });
