@@ -35,3 +35,21 @@ variable "github_environment" {
 variable "aws_acm_certificate_arn" {
   type = string
 }
+
+variable "redirect_domains" {
+  description = "Deprecated domains that should redirect to app_urls. Optional."
+  type        = list(string)
+  default     = []
+}
+
+variable "redirect_target" {
+  description = "Primary domain that redirect_domains should point to. Defaults to the first app_urls entry."
+  type        = string
+  default     = null
+}
+
+variable "redirect_acm_certificate_arn" {
+  description = "ACM certificate covering redirect_domains. Defaults to aws_acm_certificate_arn."
+  type        = string
+  default     = null
+}

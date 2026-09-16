@@ -18,7 +18,8 @@ locals {
   project_name = "${local.client}-forest-watcher"
   environment  = "prod"
   name         = "${local.project_name}-${local.environment}"
-  domains      = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
+  domains      = ["forestwatcher.globalnaturewatch.org", "fw.globalnaturewatch.org", "watcher.globalnaturewatch.org"]
+  old_domains  = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
   tags = {
     client      = local.client
     product     = local.project_name
@@ -37,14 +38,17 @@ provider "aws" {
 module "web" {
   source = "../../modules/web"
 
-  project_name            = local.project_name
-  environment             = local.environment
-  app_urls                = local.domains
-  repo_name               = "wri/forest-watcher-desktop"
-  repo_owner_id           = "4615146"
-  repo_id                 = "1317545921"
-  github_environment      = "production"
-  aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/aa62ffe8-30c3-47d4-9aa5-53079c1ee75a"
+  project_name                 = local.project_name
+  environment                  = local.environment
+  app_urls                     = local.domains
+  repo_name                    = "wri/forest-watcher-desktop"
+  repo_owner_id                = "4615146"
+  repo_id                      = "1317545921"
+  github_environment           = "production"
+  aws_acm_certificate_arn      = "arn:aws:acm:us-east-1:434648646880:certificate/42d6a524-4dcc-40f8-8299-37cc474bd9eb"
+  redirect_domains             = local.old_domains
+  redirect_target              = local.domains[0]
+  redirect_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/aa62ffe8-30c3-47d4-9aa5-53079c1ee75a"
 }
 
 
@@ -66,4 +70,16 @@ resource "aws_route53_record" "main" {
     zone_id                = module.web.cloudfront_distribution_hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+# The globalforestwatch.org zones are managed outside this repo/account,
+# so the alias records for the redirect domains must be created there,
+# pointing at the redirect distribution exported by the outputs below.
+
+output "redirect_distribution_domain_name" {
+  value = module.web.redirect_distribution_domain_name
+}
+
+output "redirect_distribution_hosted_zone_id" {
+  value = module.web.redirect_distribution_hosted_zone_id
 }
