@@ -2,8 +2,6 @@
 export const API_VIZZUALITY_URL_V1 = process.env.REACT_APP_API_VIZZUALITY_URL_V1;
 export const API_BASE_URL_V1 = process.env.REACT_APP_API_CUBE_URL_V1;
 export const API_BASE_URL_V3 = process.env.REACT_APP_API_CUBE_URL_V3;
-export const ALERTS_API_URL = process.env.REACT_APP_ALERTS_API_URL;
-export const ALERTS_API_TOKEN = process.env.REACT_APP_ALERTS_API_TOKEN;
 export const API_BASE_AUTH_URL = process.env.REACT_APP_API_AUTH_URL;
 export const API_CALLBACK_URL = process.env.REACT_APP_API_AUTH_CALLBACK_URL;
 export const GFW_API_KEY = process.env.REACT_APP_GFW_API_KEY;
