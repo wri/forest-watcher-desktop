@@ -3,15 +3,12 @@ import LayersSection, { ILayersSection } from "./components/LayersSection";
 import { useGetV3ContextualLayer } from "../../generated/clayers/clayersComponents";
 import { Layers as ILayers } from "../../generated/clayers/clayersResponses";
 import LoadingWrapper from "components/extensive/LoadingWrapper";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import List from "components/extensive/List";
 import Hero from "components/layouts/Hero/Hero";
-import { getGFWLayers } from "modules/layers";
-import { useAppDispatch } from "hooks/useRedux";
 
 const Layers = () => {
   const { httpAuthHeader } = useAccessToken();
-  const dispatch = useAppDispatch();
 
   const {
     data: layersData,
@@ -32,6 +29,8 @@ const Layers = () => {
 
     return { pub, teams, user };
   }, [layersData]);
+
+  const availableLayers = useMemo(() => layersData?.data ?? [], [layersData]);
 
   const sections = useMemo(
     () =>
@@ -61,11 +60,6 @@ const Layers = () => {
     [layers]
   );
 
-  useEffect(() => {
-    dispatch(getGFWLayers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <section className="relative">
       <Hero title={"settings.layers"} />
@@ -78,6 +72,7 @@ const Layers = () => {
               className="pt-15 pb-20"
               refetchLayers={refetchLayers}
               layersLoading={layersLoading || layersFetching}
+              availableLayers={availableLayers}
             />
           )}
           itemClassName="even:bg-neutral-400"

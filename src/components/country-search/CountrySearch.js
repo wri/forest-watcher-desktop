@@ -23,8 +23,9 @@ class CountrySearch extends Component {
 
   handleFitCountry = selected => {
     this.setState({ country: selected });
-    const activeCountryBounds = this.props.countries.find(country => country.iso === selected.value).bbox;
-    const bounds = getBoundFromGeoJSON(JSON.parse(activeCountryBounds));
+    const activeCountry = this.props.countries.find(country => country.gid_0 === selected.value);
+    if (!activeCountry || !activeCountry.bbox) return;
+    const bounds = getBoundFromGeoJSON(JSON.parse(activeCountry.bbox));
     this.props.map.fitBounds(bounds);
     this.props.onZoomChange && this.props.onZoomChange(this.props.map.getZoom());
   };

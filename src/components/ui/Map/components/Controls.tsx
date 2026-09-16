@@ -147,7 +147,7 @@ const MapControls: FC<IProps> = props => {
 
   useEffect(() => {
     if (map && selectedCountry) {
-      const activeCountryBounds = countries.find(country => country.iso === selectedCountry)?.bbox;
+      const activeCountryBounds = countries.find(country => country.gid_0 === selectedCountry)?.bbox;
 
       if (activeCountryBounds) {
         const bbox = turf.bbox(JSON.parse(activeCountryBounds));
