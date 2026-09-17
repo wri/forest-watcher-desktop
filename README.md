@@ -1,6 +1,6 @@
 # Forest Watcher Web
 
-Web app for managing your [forest watcher](http://forestwatcher.globalforestwatch.org) data.
+Web app for managing your [forest watcher](http://forestwatcher.globalnaturewatch.org) data.
 
 ## Local CI parity
 
