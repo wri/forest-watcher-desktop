@@ -232,11 +232,20 @@ resource "aws_cloudfront_distribution" "redirect" {
   enabled = true
   comment = "${local.name} redirect distribution"
 
-  # Unused dummy origin; the viewer-request function serves redirects
-  # before this origin is ever contacted.
+  # Dummy origin; never contacted because the viewer-request function
+  # serves redirects before this origin is ever reached.
   origin {
     origin_id   = "${local.name}-redirect-dummy"
-    domain_name = "unused.local"
+    domain_name = "example.com"
+
+    # Required for a custom origin; never contacted because the
+    # viewer-request function answers every request first.
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
   }
 
   aliases = local.redirect_domains
