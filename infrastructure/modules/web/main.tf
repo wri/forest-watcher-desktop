@@ -287,13 +287,3 @@ resource "aws_cloudfront_distribution" "redirect" {
     }
   }
 }
-
-output "redirect_distribution_domain_name" {
-  description = "CloudFront domain of the redirect distribution, when redirect_domains is set."
-  value       = length(local.redirect_domains) > 0 ? aws_cloudfront_distribution.redirect[0].domain_name : null
-}
-
-output "redirect_distribution_hosted_zone_id" {
-  description = "Hosted zone id of the redirect CloudFront distribution, when redirect_domains is set."
-  value       = length(local.redirect_domains) > 0 ? aws_cloudfront_distribution.redirect[0].hosted_zone_id : null
-}

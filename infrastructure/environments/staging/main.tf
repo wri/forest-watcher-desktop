@@ -67,14 +67,4 @@ resource "aws_route53_record" "main" {
   }
 }
 
-# The globalforestwatch.org zone is managed outside this repo, so the
-# alias record for the redirect domain must be created there, pointing
-# at the redirect distribution exported by the outputs below.
 
-output "redirect_distribution_domain_name" {
-  value = module.web.redirect_distribution_domain_name
-}
-
-output "redirect_distribution_hosted_zone_id" {
-  value = module.web.redirect_distribution_hosted_zone_id
-}
