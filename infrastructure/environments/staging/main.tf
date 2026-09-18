@@ -35,7 +35,10 @@ provider "aws" {
   }
 }
 
-data "aws_route53_zone" "domain_fw" {
+# The globalnaturewatch.org TLD is managed outside AWS (Cloudflare), so
+# the subdomain gets its own Route53 hosted zone and is delegated to it
+# via NS records on the parent zone (one-time manual step).
+resource "aws_route53_zone" "domain" {
   name = local.domain
 }
 
@@ -56,13 +59,31 @@ module "web" {
 }
 
 resource "aws_route53_record" "main" {
-  zone_id = data.aws_route53_zone.domain_fw.zone_id
+  zone_id = aws_route53_zone.domain.zone_id
   name    = local.domain
   type    = "A"
 
   alias {
     name                   = module.web.cloudfront_distribution_domain_name
     zone_id                = module.web.cloudfront_distribution_hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+# The old staging globalforestwatch.org subdomain has its own zone in this
+# account, so its alias record to the redirect distribution lives here.
+data "aws_route53_zone" "old_domain" {
+  name = local.old_domain
+}
+
+resource "aws_route53_record" "redirect" {
+  zone_id = data.aws_route53_zone.old_domain.zone_id
+  name    = local.old_domain
+  type    = "A"
+
+  alias {
+    name                   = module.web.redirect_distribution_domain_name
+    zone_id                = module.web.redirect_distribution_hosted_zone_id
     evaluate_target_health = false
   }
 }
