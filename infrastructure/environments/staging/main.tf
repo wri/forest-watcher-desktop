@@ -37,14 +37,9 @@ provider "aws" {
 
 # The globalnaturewatch.org TLD is managed outside AWS (Cloudflare), so
 # the subdomain gets its own Route53 hosted zone and is delegated to it
-# via an [ADDRESS] record on the parent zone (one-time manual step).
+# via NS records on the parent zone (one-time manual step).
 resource "aws_route53_zone" "domain" {
   name = local.domain
-}
-
-output "domain_nameservers" {
-  description = "Route53 nameservers for the subdomain zone, for the parent-zone [ADDRESS] record."
-  value       = aws_route53_zone.domain.name_servers
 }
 
 module "web" {
