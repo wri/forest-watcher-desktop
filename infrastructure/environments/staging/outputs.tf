@@ -11,6 +11,6 @@ output "redirect_distribution_hosted_zone_id" {
 }
 
 output "domain_nameservers" {
-  description = "Route53 nameservers for the subdomain zone, for the parent-zone [ADDRESS] record."
+  description = "Route53 nameservers for the subdomain zone, for the parent-zone NS record."
   value       = aws_route53_zone.domain.name_servers
 }
