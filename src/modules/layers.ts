@@ -1,12 +1,9 @@
 // @ts-ignore missing types
 import normalize from "json-api-normalizer";
 import { layerService } from "services/layer";
-import { CARTO_URL, CARTO_TABLE } from "../constants/global";
-import { LAYERS_BLACKLIST } from "../constants/global";
 import { AppDispatch, RootState } from "store";
 
 // Actions
-const GET_GFW_LAYERS = "layers/GET_GFW_LAYERS";
 const SET_LAYERS = "layers/SET_LAYERS";
 const SET_LOADING = "layers/SET_LOADING";
 const DELETE_LAYERS = "layers/DELETE_LAYERS";
@@ -18,17 +15,6 @@ export interface ICartoLayer {
   tileurl: string;
 }
 
-export interface ICartoLayerResponse {
-  rows: ICartoLayer[];
-  time: number;
-  fields: {
-    cartodb_id: { type: string; pgtype: string };
-    title: { type: string; pgtype: string };
-    tileurl: { type: string; pgtype: string };
-  };
-  total_rows: number;
-}
-
 // Legacy code - used by old Layers code, added to fix TS errors
 interface ILegacyLayer {
   id: string;
@@ -36,7 +22,6 @@ interface ILegacyLayer {
 }
 
 export type TLayersState = {
-  gfw: ICartoLayerResponse["rows"];
   selectedLayers: any;
   selectedLayerIds: string[];
   loading: boolean;
@@ -44,7 +29,6 @@ export type TLayersState = {
 };
 
 export type TReducerActions =
-  | { type: typeof GET_GFW_LAYERS; payload: ICartoLayerResponse["rows"] }
   | { type: typeof SET_LAYERS; payload: { selectedLayer: any } }
   | { type: typeof SET_LOADING; payload: boolean }
   | { type: typeof DELETE_LAYERS; payload: { layer: ILegacyLayer } }
@@ -52,7 +36,6 @@ export type TReducerActions =
 
 // Reducer
 const initialState: TLayersState = {
-  gfw: [],
   selectedLayers: {},
   selectedLayerIds: [],
   loading: false,
@@ -64,12 +47,6 @@ export default function reducer(state = initialState, action: TReducerActions): 
     case SET_CARD_PORTAL: {
       if (action.payload) {
         return Object.assign({}, state, { portal: action.payload.portal });
-      }
-      return state;
-    }
-    case GET_GFW_LAYERS: {
-      if (action.payload) {
-        return Object.assign({}, state, { gfw: action.payload });
       }
       return state;
     }
@@ -121,38 +98,6 @@ export function setPortalCard(portal: HTMLElement | undefined) {
       type: SET_CARD_PORTAL,
       payload: { portal }
     });
-  };
-}
-
-export function getGFWLayers() {
-  const url = `${CARTO_URL}/api/v2/sql?q=SELECT cartodb_id, name as title, tileurl FROM ${CARTO_TABLE} WHERE tileurl is not NULL AND tileurl <> '' AND name is not NULL`;
-  return (dispatch: AppDispatch) => {
-    dispatch({
-      type: SET_LOADING,
-      payload: true
-    });
-    fetch(url)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then(async (data: ICartoLayerResponse) => {
-        dispatch({
-          type: GET_GFW_LAYERS,
-          payload: data.rows.filter(layer => !LAYERS_BLACKLIST.includes(layer.cartodb_id))
-        });
-        dispatch({
-          type: SET_LOADING,
-          payload: false
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: SET_LOADING,
-          payload: false
-        });
-        console.warn(error);
-      });
   };
 }
 
