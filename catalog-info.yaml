@@ -9,7 +9,7 @@ metadata:
       type: Frontend
       title: Frontend (Staging)
       icon: dashboard
-    - url: https://forestwatcher.globalforestwatch.org
+    - url: https://forestwatcher.globalnaturewatch.org
       type: Frontend
       title: Frontend (Production)
       icon: dashboard

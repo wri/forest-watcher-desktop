@@ -182,3 +182,108 @@ resource "aws_iam_role_policy" "ci" {
   name   = "${local.name}-ci-policy"
   policy = data.aws_iam_policy_document.web_deploy.json
 }
+
+# ------------------------------------------------------------------
+# Redirect infrastructure for deprecated domains
+# ------------------------------------------------------------------
+
+locals {
+  redirect_domains             = var.redirect_domains
+  redirect_target              = coalesce(var.redirect_target, try(var.app_urls[0], null))
+  redirect_acm_certificate_arn = coalesce(var.redirect_acm_certificate_arn, var.aws_acm_certificate_arn)
+}
+
+# A CloudFront Function intercepts every viewer request before it reaches
+# an origin, so no real origin (or S3 bucket) is needed for the redirect.
+resource "aws_cloudfront_function" "redirect" {
+  count = length(local.redirect_domains) > 0 ? 1 : 0
+
+  name    = "${local.name}-redirect"
+  comment = "301 redirect deprecated domains to ${local.redirect_target}"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+
+  code = <<-EOT
+    function handler(event) {
+      var request = event.request;
+      var target = "${local.redirect_target}";
+      var uri = request.uri;
+
+      var query = request.querystring;
+      var qs = Object.keys(query)
+        .map(function (k) {
+          return encodeURIComponent(k) + "=" + encodeURIComponent(query[k].value);
+        })
+        .join("&");
+
+      var location = "https://" + target + uri + (qs ? "?" + qs : "");
+
+      return {
+        statusCode: 301,
+        statusDescription: "Moved Permanently",
+        headers: { location: { value: location } }
+      };
+    }
+  EOT
+}
+
+resource "aws_cloudfront_distribution" "redirect" {
+  count   = length(local.redirect_domains) > 0 ? 1 : 0
+  enabled = true
+  comment = "${local.name} redirect distribution"
+
+  # Dummy origin; never contacted because the viewer-request function
+  # serves redirects before this origin is ever reached.
+  origin {
+    origin_id   = "${local.name}-redirect-dummy"
+    domain_name = "example.com"
+
+    # Required for a custom origin; never contacted because the
+    # viewer-request function answers every request first.
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  aliases = local.redirect_domains
+
+  viewer_certificate {
+    acm_certificate_arn      = local.redirect_acm_certificate_arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
+  }
+
+  default_cache_behavior {
+    target_origin_id = "${local.name}-redirect-dummy"
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    compress         = true
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.redirect[0].arn
+    }
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+}
