@@ -18,7 +18,8 @@ locals {
   project_name = "${local.client}-forest-watcher"
   environment  = "prod"
   name         = "${local.project_name}-${local.environment}"
-  domains      = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
+  domains      = ["forestwatcher.globalnaturewatch.org", "fw.globalnaturewatch.org", "watcher.globalnaturewatch.org"]
+  old_domains  = ["forestwatcher.globalforestwatch.org", "fw.globalforestwatch.org", "watcher.globalforestwatch.org"]
   tags = {
     client      = local.client
     product     = local.project_name
@@ -37,27 +38,34 @@ provider "aws" {
 module "web" {
   source = "../../modules/web"
 
-  project_name            = local.project_name
-  environment             = local.environment
-  app_urls                = local.domains
-  repo_name               = "wri/forest-watcher-desktop"
-  repo_owner_id           = "4615146"
-  repo_id                 = "1317545921"
-  github_environment      = "production"
-  aws_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/aa62ffe8-30c3-47d4-9aa5-53079c1ee75a"
+  project_name                 = local.project_name
+  environment                  = local.environment
+  app_urls                     = local.domains
+  repo_name                    = "wri/forest-watcher-desktop"
+  repo_owner_id                = "4615146"
+  repo_id                      = "1317545921"
+  github_environment           = "production"
+  aws_acm_certificate_arn      = "arn:aws:acm:us-east-1:434648646880:certificate/42d6a524-4dcc-40f8-8299-37cc474bd9eb"
+  redirect_domains             = local.old_domains
+  redirect_target              = local.domains[0]
+  redirect_acm_certificate_arn = "arn:aws:acm:us-east-1:434648646880:certificate/aa62ffe8-30c3-47d4-9aa5-53079c1ee75a"
 }
 
 
-data "aws_route53_zone" "domain_fw" {
+# The globalnaturewatch.org TLD is managed outside AWS (Cloudflare), so
+# each subdomain gets its own Route53 hosted zone and is delegated to it
+# via NS records on the parent zone (one-time manual step).
+resource "aws_route53_zone" "domain" {
   for_each = toset(local.domains)
 
   name = each.value
 }
 
+
 resource "aws_route53_record" "main" {
   for_each = toset(local.domains)
 
-  zone_id = data.aws_route53_zone.domain_fw[each.key].zone_id
+  zone_id = aws_route53_zone.domain[each.key].zone_id
   name    = each.value
   type    = "A"
 
@@ -67,3 +75,27 @@ resource "aws_route53_record" "main" {
     evaluate_target_health = false
   }
 }
+
+# The old globalforestwatch.org subdomains have their own zones in this
+# account, so their alias records to the redirect distribution live here.
+data "aws_route53_zone" "old_domain" {
+  for_each = toset(local.old_domains)
+
+  name = each.value
+}
+
+resource "aws_route53_record" "redirect" {
+  for_each = toset(local.old_domains)
+
+  zone_id = data.aws_route53_zone.old_domain[each.key].zone_id
+  name    = each.value
+  type    = "A"
+
+  alias {
+    name                   = module.web.redirect_distribution_domain_name
+    zone_id                = module.web.redirect_distribution_hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+
