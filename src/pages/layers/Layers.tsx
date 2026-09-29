@@ -18,7 +18,10 @@ const Layers = () => {
   } = useGetV3ContextualLayer({ headers: httpAuthHeader });
 
   const layers: { pub?: ILayers["data"]; user?: ILayers["data"]; teams?: ILayers["data"] } = useMemo(() => {
-    const pub = layersData?.data.filter(l => l.attributes && l.attributes.isPublic);
+    // Public layers that are disabled (isPublic: true, enabled: false) are not shown
+    // in the public section; they are instead offered as selectable options in the
+    // user/teams sections (see LayersCard).
+    const pub = layersData?.data.filter(l => l.attributes && l.attributes.isPublic && l.attributes.enabled !== false);
     const teams = layersData?.data.filter(
       l => l.attributes && !l.attributes.isPublic && l.attributes.owner.type === "TEAM"
     );
