@@ -73,6 +73,9 @@ const LayersCard = ({
   const uniqueAvailableLayers = useMemo(() => {
     const seen = new Set<string>();
     return availableLayers.filter(layer => {
+      // Layers that are already enabled (assigned to this user/team) should not
+      // be offered again as selectable options in the "My Layers" / "Team Layers" modals.
+      if (layer.attributes?.enabled) return false;
       const url = layer.attributes?.url || "";
       if (!url || seen.has(url)) return false;
       seen.add(url);
